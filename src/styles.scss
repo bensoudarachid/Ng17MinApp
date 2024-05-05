@@ -1,0 +1,497 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+
+@include mat.core();
+// $my-palette: mat.$indigo-palette;
+// @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+//@import "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
+
+// $my-primary: mat-palette($mat-grey);
+// $my-primary: mat-palette(mat.$indigo-palette, 800);
+
+$md-mcgpalette0: (
+    50 : #e8f1e8,
+    100 : #c5dcc6,
+    200 : #9ec5a1,
+    300 : #77ae7b,
+    400 : #599c5e,
+    500 : #3c8b42,
+    600 : #36833c,
+    700 : #2e7833,
+    800 : #276e2b,
+    900 : #1a5b1d,
+    A100 : #98ff9d,
+    A200 : #65ff6d,
+    A400 : #32ff3c,
+    A700 : #19ff24,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+
+//$my-primary: mat.define-palette($md-mcgpalette0, 800);
+
+$my-primary: mat.define-palette(mat.$indigo-palette, 800);
+$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$my-warn: mat.define-palette(mat.$red-palette);
+
+$my-theme: mat.define-light-theme((
+ color: (
+   primary: $my-primary,
+   accent: $my-accent,
+   warn: $my-warn,
+ ),
+ typography: mat.define-typography-config(),
+ density: 0,
+));
+
+@include mat.all-component-themes($my-theme);
+
+$primary: mat.get-color-from-palette($my-primary, default);
+$accent: mat.get-color-from-palette($my-accent, default);
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+
+// @import '../node_modules/@angular/material/core/theming/theming';
+// @include mat-core();
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+//@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+
+// $primary: mat.define-palette(mat.$pink-palette, 500);
+// $my-primary: mat.define-palette(mat.$indigo-palette, 800);
+// $primary: mat-palette($mat-blue, 500, 300, 100);
+// $primary: color(500, 300, 100);
+// $primary: mat-palette($mat-blue-grey, 500, 300, 100);
+// $primary: mat-palette($mat-teal, 500, 300, 100);
+// $primary: mat-palette($mat-light-green, 500, 300, 100);
+// $primary: mat-palette($mat-cyan, 500, 300, 100);
+
+//$my-app-accent:  mat-palette($mat-green, A200, A100, A400);
+$accent:  color(600, 300, 100);
+
+// The warn palette is optional (defaults to red).
+$warn:    color( 900, 300, 100);
+
+// Create the theme object (a Sass map containing all of the palettes).
+// $theme:   mat-light-theme($primary, $accent, $warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+// @include angular-material-theme($theme);
+
+
+// @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+// @import '~animate.css/animate.min';
+// @import 'materialtheme.scss';
+// $color-primary: "133,149,150";
+// $color-primary-dark: $color-primary;
+// $color-accent: $color-primary;
+// $orangedark: #F07818;
+// $orangelight: #F0A830;
+// $reddark: #E91818;
+// $beige: #d4a281;
+// $redlight: #E36937;
+// $bluelight: #91CED7;
+// $bluedark: #0F6177;
+// $braun: #9E5428;
+// $greendark: #27AE60;
+// $green: #799412;
+// $blacklight: #091414;
+// $violet: #ab69c6;
+// $blue: #22A7F0;
+// $magenta: #17bbb0;
+// $pink: #ff6ca8;
+// $metallic: #8c9aa9;
+// $roya-blue: rgba(140, 200, 233, 1.0);
+// $roya-blue: #6f9;
+// $roya-blue: #FF3333;
+// $roya-blue: #69F;
+// $roya-blue: #96F;
+// $roya-blue: #F96;
+// $roya-blue: #91CED7;
+// $roya-blue: #81BED7;
+// $roya-blue: #81BED7;
+// $roya-blue: #69F;
+// $roya-blue: #61b6f9;
+// $roya-blue:#68c4f7;
+
+// button{
+//   outline: none;
+// }
+
+@import url('https://fonts.googleapis.com/css?family=Merienda');
+$RoyaMainFont: 'Merienda', 'Comic Sans MS', cursive, 'Lucida Sans Unicode',
+  'Lucida Grande', sans-serif;
+
+@mixin transitionAll($duration) {
+  -webkit-transition: all $duration ease-out;
+  -moz-transition: all $duration ease-out;
+  -ms-transition: all $duration ease-out;
+  -o-transition: all $duration ease-out;
+  transition: all $duration ease-out;
+}
+
+@mixin border-radius($radius) {
+  border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+}
+
+@function number($value) {
+  @if type-of($value) == 'number' {
+    @return $value;
+  } @else if type-of($value) != 'string' {
+    $_: log('Value for `to-number` should be a number or a string.');
+  }
+
+  $result: 0;
+  $digits: 0;
+  $minus: str-slice($value, 1, 1) == '-';
+  $numbers: (
+    '0': 0,
+    '1': 1,
+    '2': 2,
+    '3': 3,
+    '4': 4,
+    '5': 5,
+    '6': 6,
+    '7': 7,
+    '8': 8,
+    '9': 9,
+  );
+
+  @for $i from if($minus, 2, 1) through str-length($value) {
+    $character: str-slice($value, $i, $i);
+
+    @if not(index(map-keys($numbers), $character) or $character == '.') {
+      @return to-length(if($minus, -$result, $result), str-slice($value, $i));
+    }
+
+    @if $character == '.' {
+      $digits: 1;
+    } @else if $digits == 0 {
+      $result: $result * 10 + map-get($numbers, $character);
+    } @else {
+      $digits: $digits * 10;
+      $result: $result + map-get($numbers, $character) / $digits;
+    }
+  }
+
+  @return if($minus, -$result, $result);
+}
+
+// @function getMdlColor($string) {
+
+//   $index: str-index($string, ",");
+//   $r: number(str-slice($string, 1, $index - 1));
+//   $str-2: str-slice($string, $index + 1);
+//   $index: str-index($str-2, ",");
+//   $g: number(str-slice($str-2, 1, $index - 1));
+//   $b: number(str-slice($str-2, $index + 1));
+
+//   @return rgb($r, $g, $b);
+// }
+
+@mixin textGlitch(
+  $name,
+  $intensity,
+  $textColor,
+  $background,
+  $highlightColor1,
+  $highlightColor2,
+  $width,
+  $height
+) {
+  font-family: $RoyaMainFont, Tahoma, sans-serif;
+  color: $textColor;
+  position: relative;
+  $steps: $intensity;
+
+  @at-root {
+    @for $i from 1 through 2 {
+      @keyframes #{$name}-anim-#{$i} {
+        @for $i from 0 through $steps/10 {
+          #{percentage($i*(1/$steps))} {
+            clip: rect(
+              random($height) + px,
+              $width + px,
+              random($height) + px,
+              0
+            );
+          }
+        }
+        @for $i from $steps/10 through $steps {
+          #{percentage($i*(1/$steps))} {
+            clip: rect(0, 0, 0, 0);
+          }
+        }
+      }
+    }
+  }
+  &:before,
+  &:after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: $background;
+    clip: rect(0, 0, 0, 0);
+  }
+  &:after {
+    left: 1.5px;
+    text-shadow: -2px 0 $highlightColor1;
+    animation: #{$name}-anim-1 10s infinite linear alternate-reverse;
+  }
+  &:before {
+    left: -1.5px;
+    text-shadow: 2px 0 $highlightColor2;
+    animation: #{$name}-anim-2 15s infinite linear alternate-reverse;
+  }
+}
+
+@mixin imgGlitch($name, $intensity, $width, $height, $top, $left) {
+  $steps: $intensity;
+
+  @at-root {
+    @for $i from 1 through 2 {
+      @keyframes #{$name}-anim-#{$i} {
+        @for $i from 0 through $steps {
+          #{percentage($i*(1/$steps))} {
+            clip: rect(
+              random($height) + px,
+              $width + px,
+              random($height) + px,
+              0
+            );
+          }
+        }
+      }
+    }
+  }
+
+  > img {
+    position: absolute;
+    top: $top + px;
+    left: $left + px;
+  }
+  > img:nth-child(2),
+  > img:nth-child(3) {
+    clip: rect(0, 0, 0, 0);
+  }
+  > img:nth-child(2) {
+    left: ($left + 2) + px;
+    animation: #{$name}-anim-1 2s infinite linear alternate-reverse;
+  }
+  > img:nth-child(3) {
+    left: ($left - 2) + px;
+    animation: #{$name}-anim-2 3s infinite linear alternate-reverse;
+  }
+}
+
+@mixin svgGlitch(
+  $name,
+  $intensity,
+  $fillColor,
+  $background,
+  $fillHighlight1,
+  $fillHighlight2,
+  $width,
+  $height,
+  $top,
+  $left
+) {
+  $steps: $intensity;
+  @at-root {
+    @for $i from 1 through 2 {
+      @keyframes #{$name}-anim-#{$i} {
+        @for $i from 0 through $steps {
+          #{percentage($i*(1/$steps))} {
+            clip: rect(
+              (random($height)-20) + px,
+              $width + px,
+              (random($height) + 20) + px,
+              0
+            );
+          }
+        }
+      }
+    }
+  }
+
+  svg {
+    position: absolute;
+    top: $top + px;
+    left: $left + px;
+    fill: $fillColor;
+    background: $background;
+    width: $width + px;
+    height: $height + px;
+  }
+  svg:nth-child(2),
+  svg:nth-child(3) {
+    clip: rect(0, 0, 0, 0);
+  }
+  svg:nth-child(2) {
+    fill: $fillHighlight1;
+    left: ($left - 2) + px;
+    animation: #{$name}-anim-1 2s infinite linear alternate-reverse;
+  }
+  svg:nth-child(3) {
+    fill: $fillHighlight2;
+    left: ($left + 2) + px;
+    animation: #{$name}-anim-2 3s infinite linear alternate-reverse;
+  }
+}
+
+// $eventcolor0: darken(getMdlColor($color-primary), 10%);
+// $eventcolor1: lighten($green, 10%);
+// $eventcolor2: $bluelight;
+// $eventcolor3: lighten($reddark, 20%); //#FFAC9C
+// $eventcolor4: lighten($orangelight, 10%);
+$eventcolor0: black;
+$eventcolor1: black;
+$eventcolor2: black;
+$eventcolor3: black; //#FFAC9C
+$eventcolor4: black;
+
+:export {
+  eventcolor0: $eventcolor0;
+  eventcolor1: $eventcolor1;
+  eventcolor2: $eventcolor2;
+  eventcolor3: $eventcolor3;
+  eventcolor4: $eventcolor4;
+}
+
+
+#app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    // background-color: rgb(238, 251, 255);
+  
+    // background-image: url(https://mdbootstrap.com/img/Photos/Others/img%20%2844%29.jpg); background-attachment: fixed; height: 1200px;
+    // background-image: url('../assets/images/dna.png'); background-attachment: fixed; height: 1200px;
+    // background-image: url('../assets/images/dna.png') no-repeat center center fixed;
+    // background: url('../assets/images/dna.png') no-repeat center top fixed;
+    // -webkit-background-size:cover;
+    // -moz-background-size:cover;
+    // -o-background-size:cover;
+    // background-size:cover;
+    font-family: 'Roboto', Tahoma, sans-serif;
+    font-size: 1em;
+    letter-spacing: -0.75px;
+    // margin-top: -10px;
+  
+    // background: url('../assets/images/dna.png') no-repeat 0 -300px fixed;
+    .imgparallax {
+      // background-color: red;
+      opacity: 0.1;
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      z-index: -20;
+      // background: url('../assets/images/dna3.png') no-repeat center center fixed;
+      background: url('./assets/images/logo1.svg') no-repeat center center fixed;
+  
+      -webkit-background-size: auto 100%;
+      -moz-background-size: auto 100%;
+      -o-background-size: auto 100%;
+      background-size: auto 100%;
+      // background-size:cover;
+      transform: translate(0px, 15%) scale(1);
+      -webkit-filter: blur(2px) sepia(100%);
+      -moz-filter: blur(2px) sepia(100%);
+      -o-filter: blur(2px) sepia(100%);
+      -ms-filter: blur(2px) sepia(100%);
+      filter: blur(2px) sepia(100%);
+    }
+    .backgrcolorparallax {
+      // background-color:blue;
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      z-index: -30;
+      background: linear-gradient(
+        //  darken(mat-color($accent, 900), 30%),
+        //  darken(mat-color($primary, 900), 20%)
+            blue, red
+        )
+        no-repeat center top fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+    .content {
+      // background: url('../assets/images/dna.png') no-repeat 0 -300px fixed;
+      // background-image: url('../assets/images/dna.png');
+      // background-attachment: fixed;
+      // background-position: 0 -300px;
+      // background-repeat: no-repeat;
+      // background-size: cover;
+      flex: 1 0 auto;
+      width: 97.6%;
+      padding-top: 20px;
+      margin: 0 auto;
+    }
+    .footer {
+      flex-shrink: 0;
+    }
+    @media (min-width: 768px) {
+      .content {
+        width: 100%;
+        padding-top: 30px;
+      }
+      // .imgparallax{
+      //     background-position: 0 -100px;
+      // }
+      .imgparallax {
+        opacity: 0.1;
+        // background-size:100% auto;
+        background-size: cover;
+      }
+    }
+  
+    @media (min-width: 992px) {
+      // .imgparallax{
+      //     -webkit-filter: blur(1px);
+      //     -moz-filter: blur(1px);
+      //     -o-filter: blur(1px);
+      //     -ms-filter: blur(1px);
+      //     filter: blur(1px);
+      //     background-size:100% auto;
+      // }
+    }
+}
+  

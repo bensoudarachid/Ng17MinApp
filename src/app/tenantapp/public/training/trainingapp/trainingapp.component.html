@@ -1,0 +1,20 @@
+<!-- <p>trainingapp works!</p> -->
+<div class="publictraining">
+    <section class="section" style="width:95%;margin: 0 auto;">
+      <div class="row">
+        <div
+          *ngFor="let training of trainings"
+          class="col-sm-12 col-md-12 col-lg-4 mb-r"
+        >
+          <app-training-item
+            api="training"
+            [trainingInput]="training"
+          ></app-training-item>
+        </div>
+      </div>
+    </section>
+  
+    <!-- <h4>{{training.get('title')}}</h4>
+        <p>{{training.get('shortDescription')}}</p> -->
+  </div>
+  

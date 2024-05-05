@@ -1,0 +1,33 @@
+{
+    "favorites.resources": [
+        {
+            "filePath": "src\\styles.scss",
+            "group": "Default"
+        },
+        {
+            "filePath": "src\\app\\tenantapp\\public\\training\\training-item\\training-item.component.scss",
+            "group": "Default"
+        },
+        {
+            "filePath": "src\\app\\app.config.ts",
+            "group": "Default"
+        },
+        {
+            "filePath": "src\\app\\shared\\components\\app-image\\app-image.component.html",
+            "group": "Default"
+        },
+        {
+            "filePath": "tsconfig.json",
+            "group": "Default"
+        },
+        {
+            "filePath": "package.json",
+            "group": "Default"
+        },
+        {
+            "filePath": "src\\app\\app.component.ts",
+            "group": "Default"
+        }
+    ],
+    "workbench.editor.limit.value": 6
+}

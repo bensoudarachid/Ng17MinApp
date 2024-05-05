@@ -1,0 +1,42 @@
+@import '@src/styles.scss';
+
+.imgwrapper {
+    position: relative;
+    height: 100%;
+    // background-color:orange;
+    .dataimg {
+      // background-color:red;
+      // position: absolute;
+      //   position: absolute;
+      // width: 100px;
+      // height: 100px;
+      -webkit-filter: blur(10px);
+      -moz-filter: blur(10px);
+      -o-filter: blur(10px);
+      -ms-filter: blur(10px);
+      filter: blur(10px);
+    }
+    .imgunblur {
+      -webkit-filter: blur(0px);
+      -moz-filter: blur(0px);
+      -o-filter: blur(0px);
+      -ms-filter: blur(0px);
+      filter: blur(0px);
+      @include transitionAll(0.1s);
+    }
+    .spinnerwrap {
+      position: absolute;
+      left: 25%;
+      top: 15%;
+      width: 50% !important;
+      height: 50% !important;
+    }
+    .spinner {
+      width: 100%;
+      height: 100%;
+    }
+    // .spinner,.dataimg,.fulldataimg{
+    //     position: absolute;
+    // }
+  }
+  

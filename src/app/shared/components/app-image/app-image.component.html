@@ -1,0 +1,9 @@
+<div class='imgwrapper' id='imgwrap{{imgid}}' #imgref>
+     <!-- <div class='spinnerwrap'>
+         <div class='mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active spinner'></div>
+     </div> bind-src='this.datasrc' src='assets/images/0.png'-->
+     <img #appimage id='applicationimg{{imgid}}' src='assets/images/0.png' class='dataimg' (load)='loadImage()' (error)='handleImageErrored()'
+         alt='tinyimg' />
+     <!-- <img id='applicationimg{{imgid}}' [httpSrc]='this.datasrc' class='dataimg' (load)='loadImage()' (error)='handleImageErrored()'
+         alt='tinyimg' /> -->
+ </div>
