@@ -1,10 +1,10 @@
 import { createReducer, on } from "@ngrx/store";
 import { trainingState } from "./Training.State";
 import { deleteTrainingSuccess, getTrainingSuccess, loadTrainingFail, loadTrainingSuccess } from "./Training.Actions";
-import { state } from "@angular/animations";
 
 const _TrainingReducer = createReducer(trainingState,
     on(loadTrainingSuccess, (state, action) => {
+        console.log('training reducer. load trainings is successful')
         return {
             ...state,
             list: action.list,

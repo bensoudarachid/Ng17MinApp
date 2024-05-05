@@ -5,7 +5,6 @@ import { NavComponent } from './tenantapp/shared/components/nav/nav.component';
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core'
 // import { Store } from '@ngrx/store'
 // import { Observable } from 'rxjs'
-// import { CookieService } from 'ngx-cookie-service'
 // import { AppState } from './tenantapp/store/appstate'
 // import * as LoginActions from './tenantapp/store/actions/auth.actions'
 // import * as appActions from './tenantapp/store/actions/app.actions'
@@ -19,6 +18,7 @@ import { ApiConnection } from '@src/app/shared/services/api-connection.service'
 import { Store } from '@ngrx/store'
 //import { Observable } from "rxjs/observable";
 import { Observable } from 'rxjs'
+import { loginRequest } from './_store/Auth/Auth.Actions';
 // import { CookieService } from 'ngx-cookie-service'
 
 // import { trainingState } from "@src/app/_store/Training/Training.State"
@@ -69,6 +69,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    if( typeof $ === "undefined")
+      return;
     $(window).scroll( () => {
       let wScroll = $(this).scrollTop()
       $('.imgparallax').css({
@@ -81,7 +83,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       })
     })
     // this.cookiesService.set('jwt', userAccessData.access_token,expireDate,'/',undefined,true)
-    //this.cookiesService.set('refreshtoken', userAccessData.refresh_token,expireDate,'/',undefined,true)
+    // this.cookiesService.set('refreshtoken', userAccessData.refresh_token,expireDate,'/',undefined,true)
     // let jwtToken = this.cookiesService.get('jwt')
     // console.log('app component ngOnInit jwt token:' + jwtToken)
 
@@ -117,6 +119,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   // }
   signIn() {
     console.log('Sign in:'+ this.email +', '+ this.password)
+    this.store.dispatch(loginRequest({email: this.email,password: this.password}))
     // this.store.dispatch(
     //   // new LoginActions.LoginRequest(this.email, this.password)
     // )
