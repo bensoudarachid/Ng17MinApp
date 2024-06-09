@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { TrainingsService } from '@app/tenantapp/services/trainings/trainings.service';
 import { timeout, catchError, exhaustMap, map, of, switchMap } from "rxjs";
 import { AuthService } from "@app/_services/auth.service";
-import { loginRequest, loginSuccess, loginFailure } from "./Auth.Actions";
+import { loginRequest, loginSuccess, loginFailure, logoutRequest, logoutSuccess, refreshRequest } from "./Auth.Actions";
 import { CookieService } from 'ngx-cookie-service'
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core'
 
@@ -48,6 +48,138 @@ export class AuthEffects {
             })
         )
     )
+
+    _logout = createEffect(() =>
+        this.action$.pipe(
+            ofType(logoutRequest),
+            exhaustMap((action) => {
+                console.log('auth effect. logout by calling auth service. action:')
+                console.log(action)
+                let jwtToken = this.cookiesService.get('jwt')
+                console.log('before delete:' + jwtToken)
+
+                return this.service.logout().pipe(
+
+                    map(() => {
+                        console.log('Response from backend. send Logout success action now.')
+                        this.cookiesService.deleteAll('')
+                        this.cookiesService.deleteAll('/')
+                        this.cookiesService.deleteAll('/admin')
+                        this.cookiesService.deleteAll('admin')
+                        // this.cookiesService.delete('jwt', '')
+                        // this.cookiesService.delete('refreshtoken', '')
+                        // this.cookiesService.delete('authority', '')
+                        // this.cookiesService.delete('expirationdate', '')
+                        jwtToken = this.cookiesService.get('jwt')
+                        console.log('After delete 2:' + jwtToken)
+                        if (jwtToken) {
+                          this.cookiesService.set('jwt', '', undefined, '/')
+                          this.cookiesService.set('refreshtoken', '', undefined, '/')
+                          this.cookiesService.set('authority', '', undefined, '/')
+                          this.cookiesService.set('expirationdate', '', undefined, '/')
+                          jwtToken = this.cookiesService.get('jwt')
+                          console.log('after delete 3:' + jwtToken)
+                        }
+              
+                        return logoutSuccess()
+                      }),
+                      timeout(8000),
+                      catchError((serverError) => {
+                        console.log('Return New LoginError Action. error: '+serverError)
+                        let errorDescr = 'Unknown server error'
+                        if (serverError != undefined && serverError.name == 'TimeoutError')
+                          errorDescr = 'Server is too long to respond'
+                        else if (
+                          serverError != undefined &&
+                          serverError.error != undefined &&
+                          serverError.error.error_description != undefined
+                        )
+                        errorDescr = serverError.error.error_description
+                        // console.log(errorDescr)
+                        // this.store.dispatch(new authActions.LoginFailure(errorDescr))
+                        // return of(new appActions.AppError(errorDescr))
+                        return of(loginFailure({ loginError: 'not good' }))
+                      })
+              
+                )
+            })
+        )
+    )
+
+    _refreshRequest = createEffect(() =>
+        this.action$.pipe(
+            ofType(refreshRequest),
+            exhaustMap((action) => {
+                console.log('auth effect. refreshRequest. action:')
+                console.log(action)
+
+                let refreshToken = this.cookiesService.get('refreshtoken')
+                let expirationDate = this.cookiesService.get('expirationdate') != undefined
+                    ? Number(this.cookiesService.get('expirationdate'))
+                    : undefined
+                // console.log('Actual date: '+new Date().getTime())
+                // if( expirationDate==undefined || refreshToken==undefined)
+                //     console.log('No refresh token because no cookies')
+                // if( expirationDate!=undefined && new Date(expirationDate).getTime()>new Date().getTime())
+                //     console.log('No refresh token expiration date still valid')
+                if (
+                  expirationDate == undefined ||
+                  refreshToken == undefined ||
+                  refreshToken == '' ||
+                  new Date(expirationDate).getTime() > new Date().getTime()
+                )
+                  return of({ type: 'NO_ACTION' })
+                console.log(
+                  'Refresh auth token! Expiration date: ' + new Date(expirationDate)
+                )
+                console.log('Refresh auth token! Refresh token ' + refreshToken)
+          
+                // let jwtToken = this.cookiesService.get('jwt')
+                // console.log('before delete:' + jwtToken)
+                // let refreshtoken = this.cookiesService.get('refreshtoken')
+                // console.log('Auth refresh auth token request: '+refreshtoken)
+                // this.cookiesService.deleteAll()
+                if (
+                  refreshToken == 'null' ||
+                  refreshToken == 'undefined' ||
+                  refreshToken == undefined ||
+                  refreshToken == ''
+                ) {
+                  console.log('Refresh auth token! return undefined')
+                  return of({ type: 'NO_ACTION' })
+                } else {
+                  console.log('Refresh auth token! call authService')
+                }          
+
+                return this.service.login("email" , "action.password").pipe(
+
+                    map((userAccessData) => {
+                        // console.log('get userAccessData now : '+JSON.stringify(userAccessData, null, 2))
+                        return this.processAccessDataResponse(userAccessData)
+                      }),
+                      timeout(8000),
+                      catchError((serverError) => {
+                        console.log('Return New LoginError Action. error: '+serverError)
+                        let errorDescr = 'Unknown server error'
+                        if (serverError != undefined && serverError.name == 'TimeoutError')
+                          errorDescr = 'Server is too long to respond'
+                        else if (
+                          serverError != undefined &&
+                          serverError.error != undefined &&
+                          serverError.error.error_description != undefined
+                        )
+                        errorDescr = serverError.error.error_description
+                        // console.log(errorDescr)
+                        // this.store.dispatch(new authActions.LoginFailure(errorDescr))
+                        // return of(new appActions.AppError(errorDescr))
+                        return of(loginFailure({ loginError: 'not good' }))
+                      })
+              
+                )
+            })
+        )
+    )
+    
     // _loadTraining = createEffect(() =>
     //     this.action$.pipe(
     //         ofType(loadTraining),

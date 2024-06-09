@@ -7,8 +7,9 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Injectable()
 export class TrainingEffects {
+    // constructor(private action$: Actions, private _snackbar: MatSnackBar) {
+    // }
     constructor(private action$: Actions, private service: TrainingsService, private _snackbar: MatSnackBar) {
-
     }
 
     _loadTraining = createEffect(() =>

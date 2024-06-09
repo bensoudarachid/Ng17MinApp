@@ -21,7 +21,11 @@ export const loginRequest = createAction(LOGIN_REQUEST, props<{ email: string, p
 export const loginSuccess = createAction(LOGIN_SUCCESS, props<{ authority: string }>())
 export const loginFailure = createAction(LOGIN_FAILURE, props<{ loginError: any }>())
 
+export const logoutRequest = createAction(LOGOUT_REQUEST)
+export const logoutSuccess = createAction(LOGOUT_SUCCESS)
+export const logoutFailure = createAction(LOGOUT_FAILURE)
 
+export const refreshRequest = createAction(REFRESH_REQUEST)
 
 
 

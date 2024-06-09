@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { authState } from "./Auth.State";
-import { loginRequest, loginSuccess, loginFailure } from "./Auth.Actions";
+import { loginRequest, loginSuccess, loginFailure,logoutRequest, logoutSuccess, logoutFailure } from "./Auth.Actions";
 
 
 const _AuthReducer = createReducer(authState,
@@ -20,6 +20,23 @@ const _AuthReducer = createReducer(authState,
         console.log('auth reducer. login failure')
         state = { ...state, isFetching: false }
         state = { ...state, isAuthenticated: false }
+        return state
+    }),
+    on(logoutRequest, (state, action) => {
+        console.log('auth reducer. logout request')
+        state = { ...state, isFetching: true }
+        state = { ...state, isAuthenticated: false }
+        return state
+    }),
+    on(logoutSuccess, (state, action) => {
+        console.log('auth reducer. logout success')
+        state = { ...state, isFetching: false }
+        state = { ...state, isAuthenticated: false }
+        return state
+    }),
+    on(logoutFailure, (state, action) => {
+        console.log('auth reducer. logout failure')
+        state = { ...state, isFetching: false }
         return state
     }),
 

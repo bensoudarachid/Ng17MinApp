@@ -1,12 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { Training } from '@model/Training';
 import { HttpClient } from '@angular/common/http';
 import { ApiConnection } from '@app/shared/services/api-connection.service';
+import { Observable, catchError, map, of, retry, throwError } from 'rxjs';
+import { AppSignalStore } from '@src/app/_store/Signal.Store';
+import { patchState } from '@ngrx/signals';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TrainingsService {
+  // appSignalStore = inject(AppSignalStore)
+  trainingsSignal = signal<any | null>(null); // set null initial value
 
   constructor(private http: HttpClient) {}
 
@@ -18,4 +23,58 @@ export class TrainingsService {
     // return this.http.get<Training[]>('http://abbaslearn.sc.royasoftware.com:8088/api/trainings/123');
   }
 
+  getTrainings2() {
+    console.log('TrainingsService. load trainings now tani')
+    // this.http.get<Training[]>('http://reactlearn.schoolapi.royasoftware.com:8088/api/trainings/123');
+    
+    this.http.get<Training[]>(ApiConnection.API_ENDPOINT+'/api/trainings/123').subscribe((list) => {
+      console.log('service get data:' + list)
+      // patchState(this.appSignalStore, (state)=>( { training:{...state.training,  list  }}))
+    });
+  }
+
+  getTrainings3(): Observable<any> {
+    console.log('TrainingsService. load trainings 3')
+    return this.http.get<any>(ApiConnection.API_ENDPOINT+'/api/trainings/123').pipe(
+      catchError(error => {
+        console.error('Error fetching trainigs JSON data:', error);
+        return throwError(()=> new Error('Something went wrong; please try again later.'));
+      })
+    );
+  }
+
+  getTrainings4(){
+    const httpClient = inject(HttpClient);
+
+    return () => {
+      console.log('getTrainings3. service get data:')
+      return httpClient.get<Training[]>(`ApiConnection.API_ENDPOINT+'/api/trainings/123`)
+        .pipe(
+          retry(3),
+          catchError((error) => {
+            console.error('Error fetching profile:', error);
+            return of(1);
+          })
+        )
+        .subscribe((data) => {
+          // subscribe to a signal to receive updates.
+          console.log('API Response:', data);
+          this.trainingsSignal.set(data);
+          console.log('set userProfileSignal', this.trainingsSignal);
+        });
+    }
+  }
+
+
 }
+// export const getTrainings4 = (): () => Observable<Training[]> => {
+//   const httpClient = inject(HttpClient);
+
+//   return () => {
+//     console.log('getTrainings3. service get data:')
+//     return httpClient.get<Training[]>(`ApiConnection.API_ENDPOINT+'/api/trainings/123`)
+//       .pipe(
+//         map((p) => p)
+//       );
+//   }
+// }

@@ -1,3 +1,4 @@
+
 export interface Auth {
      isFetching: boolean
      isRegistrationFetching: boolean

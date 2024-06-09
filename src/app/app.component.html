@@ -340,6 +340,7 @@
   class="modal fade"
   id="modalLogin"
   #loginform
+  
   tabindex="-1"
   role="dialog"
   aria-labelledby="myModalLabel"
@@ -386,7 +387,9 @@
           <button
             class="btn btn-info waves-light"
             (click)="signIn()"
-            mdbRippleRadius
+            data-dismiss="modal"
+            data-bs-dismiss="modal"
+              mdbRippleRadius
           >
             Log in
             <i class="fa fa-sign-in ml-1"></i>
