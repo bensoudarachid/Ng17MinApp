@@ -1,4 +1,4 @@
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { NavComponent } from './tenantapp/shared/components/nav/nav.component';
 
 //import { ApiConnection } from '@tenantapp/services/api-connection.service'
@@ -42,6 +42,7 @@ declare var $: any
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'Ng17MinApp';
   appSignalStore = inject(AppSignalStore)
+  router = inject(Router);
 
   password: string = ""
   email: string = ""
@@ -143,7 +144,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     // this.store.dispatch(loginRequest({email: this.email,password: this.password}))
     await this.appSignalStore.login(this.email, this.password)
     this.appSignalStore.refreshAuthToken()
-    
+    this.router.navigate(['/']);
+    console.log('Sign in done')
     // this.store.dispatch(
     //   // new LoginActions.LoginRequest(this.email, this.password)
     // )

@@ -37,7 +37,7 @@ export class TrainingsService {
     console.log('TrainingsService. load trainings 3')
     return this.http.get<any>(ApiConnection.API_ENDPOINT+'/api/trainings/123').pipe(
       catchError(error => {
-        console.error('Error fetching trainigs JSON data:', error);
+        console.error('Error fetching trainigs JSON data:', JSON.stringify(error.message));
         return throwError(()=> new Error('Something went wrong; please try again later.'));
       })
     );

@@ -1,4 +1,4 @@
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MaterialModule } from '@module/Material.Module';
 import { Component, OnInit, Output, EventEmitter, inject } from '@angular/core'
 import { Observable } from 'rxjs';
@@ -22,7 +22,7 @@ export class NavComponent implements OnInit{
   // isAuthenticated$ = new Observable<boolean>
   isAuthenticated: boolean = false
   appSignalStore = inject(AppSignalStore)
-
+  router = inject(Router);
   constructor(private store: Store, private cookiesService: CookieService ) {}
 
   startLogin() {
@@ -42,6 +42,8 @@ export class NavComponent implements OnInit{
     // let jwtToken = this.cookiesService.get('jwt')
     // console.log('before delete:' + jwtToken)
     this.appSignalStore.logout()
+    this.router.navigate(['']);
+    // this.router.navigate(['training/trainings-pub']);
     
     // this.store.dispatch(
     //   // new LoginActions.LoginRequest(this.email, this.password)

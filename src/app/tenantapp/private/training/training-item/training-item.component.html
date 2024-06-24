@@ -1,0 +1,49 @@
+<!-- <p>training-item works!</p> -->
+<p>private trainingitem --- delete later</p>  
+<div class="card">
+    <!--Card image-->
+    <app-image
+      api="{{ api }}"
+      imgid="{{ trainingid }}"
+      class="appimage"
+    ></app-image>
+    <!-- <img class="img-fluid dataimg" src="assets/images/Blog-Deploying.svg" alt="Card image cap"> -->
+    <!--Card content-->
+    <div class="card-body">
+      <!--Title-->
+      <h4 class="card-title">{{ trainingInput.title }}</h4>
+      <!--Text-->
+      <p class="card-text">{{ trainingInput.shortDescription }}</p>
+    </div>
+    <!--Card footer-->
+    <div class="card-footer">
+      <span class="left">id: {{ trainingInput.id }}</span>
+      <span class="right">
+        <!-- <a placement="top" mdbTooltip="Add to Cart">
+          <i class="fa fa-shopping-cart"></i>
+        </a>
+        <a placement="top" mdbTooltip="Share">
+          <i class="fa fa-share-alt"></i>
+        </a>
+        <a
+          class="active"
+          placement="top"
+          mdbTooltip="Added to Wishlist"
+          container="body"
+        >
+        <i class="fa fa-heart"></i> 
+        </a>
+      -->
+          <!-- routerLink="trainings" -->
+        <button
+          mat-mini-fab
+          aria-label="Tshash"
+          color="primary"
+          routerLink="/trainings/{{trainingInput.id}}"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button routerLink="/trainings/{{trainingInput.id}}" mat-button>Trainings sir b7a nav</button>
+      </span>
+    </div>
+  </div>

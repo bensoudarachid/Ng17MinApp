@@ -1,0 +1,12 @@
+@use '@angular/material' as mat;
+@import '@src/styles.scss';
+@include mat.core();
+
+
+#trainingdetailsform {
+  background-color: mat-color($primary, 50);
+  .input-width {
+    width: 96%;
+    margin-left: 2%;
+  }
+}

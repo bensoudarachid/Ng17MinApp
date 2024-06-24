@@ -1,0 +1,116 @@
+<p>training-details --- delete later</p>  
+<section class="card" style="width:95%;margin: 0 auto;">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mb-r">
+      <!-- <form
+        id="trainingdetailsform"
+        [formGroup]="rForm"
+        (ngSubmit)="submit(rForm.value)"
+      >
+        <p class="h5 text-center mb-4">Edit Training now</p>
+        <div class="form-row">
+          <div class="form-group col-md-6"></div>
+          <div class="form-group col-md-6">
+            <input
+              type="file"
+              id="fileid"
+              name="file"
+              (change)="onFilesAdded($event)"
+              ngmodel
+            />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <mat-form-field class="input-width">
+              <input
+                matInput
+                formControlName="title"
+                placeholder="Title"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-hint align="end">Not more then 30 characters long.</mat-hint>
+              <mat-error *ngIf="hasError('title', 'required')"
+                >Title is required</mat-error
+              >
+              <mat-error *ngIf="hasError('title', 'maxlength')"
+                >You have more than 30 characters</mat-error
+              >
+            </mat-form-field>
+          </div>
+
+          <div class="form-group col-md-6">
+            <mat-form-field class="input-width">
+              <input
+                matInput
+                formControlName="secondaryTitle"
+                placeholder="Secondary title"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-error *ngIf="hasError('secondaryTitle', 'required')"
+                >Email is required</mat-error
+              >
+              <mat-error *ngIf="hasError('secondaryTitle', 'maxlength')"
+                >You have more than 100 characters</mat-error
+              >
+            </mat-form-field>
+          </div>
+
+          <div class="form-group col-md-6">
+            <mat-form-field class="input-width">
+              <input
+                matInput
+                formControlName="shortDescription"
+                placeholder="Short description"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-error *ngIf="hasError('shortDescription', 'required')"
+                >Short description is required</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-6">
+            <mat-form-field class="input-width">
+              <input
+                matInput
+                formControlName="longDescription"
+                placeholder="Long description"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-error *ngIf="hasError('longDescription', 'required')"
+                >Long description is required</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-12">
+            <div id="calendar"></div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <button mat-button [disabled]="!rForm.valid">
+            Submit
+          </button>
+          <button
+            mat-button
+            type="button"
+            (click)="addEvent()"
+            [disabled]="!rForm.valid"
+          >
+            Add event
+          </button>
+          <button
+            mat-button
+            type="button"
+            (click)="removeEvents()"
+            [disabled]="!rForm.valid"
+          >
+            Remove event
+          </button>
+        </div>
+      </form> -->
+      <!-- Register form -->
+    </div>
+  </div>
+  <!--/row -->
+</section>

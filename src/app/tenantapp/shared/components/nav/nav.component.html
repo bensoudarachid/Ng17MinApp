@@ -5,10 +5,12 @@
         <mat-icon>menu</mat-icon>
     </button>
     <button routerLink="" mat-button>Home</button>
-    <button routerLink="trainings" mat-button>Trainings</button>
+    <!-- <button routerLink="trainings-pub" mat-button>Trainings</button> -->
     @if(appSignalStore.auth.isAuthenticated()==true) {
+      <button routerLink="trainings" mat-button>Trainings</button>
       <button mat-button (click)="signOut()" >Logout</button>
     } @else {
+      <button routerLink="trainings/list" mat-button>Trainings</button>
       <button mat-button data-bs-toggle="modal" data-bs-target="#modalLogin" >Login</button>
     }
     <!-- (click)="startLogin() -->

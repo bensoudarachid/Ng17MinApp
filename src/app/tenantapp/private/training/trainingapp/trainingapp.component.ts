@@ -18,7 +18,7 @@ declare var $: any
   templateUrl: './trainingapp.component.html',
   styleUrl: './trainingapp.component.scss'
 })
-export class TrainingappPubComponent implements OnInit {
+export class TrainingappComponent implements OnInit {
   // constructor(private trainingsService: TrainingsService ) {}
   // trainingsService = inject(TrainingsService)
   appSignalStore = inject(AppSignalStore)

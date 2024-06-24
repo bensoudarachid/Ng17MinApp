@@ -1,5 +1,5 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from '@app/app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
@@ -19,7 +19,7 @@ import { AppHttpInterceptorOld } from './tenantapp/services/apphttp.interceptorO
 // import { AppHttpInterceptor } from './tenantapp/services/apphttp.interceptor';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), 
+  providers: [provideRouter(routes, withComponentInputBinding()), 
     CookieService,
     provideClientHydration(), 
     provideAnimationsAsync(), 

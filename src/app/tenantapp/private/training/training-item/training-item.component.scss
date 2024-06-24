@@ -1,0 +1,32 @@
+@use '@angular/material' as mat;
+@import '@src/styles.scss';
+@include mat.core();
+.card {
+//    background-color: $primary;
+//   background-color: mat.mat-color($primary, darker);
+   background-color: mat.get-color-from-palette($my-primary, 100);
+//    background-color: lighten($primary, 50%);
+//   background-color: rgb(215, 236, 255);
+
+  .card-body {
+    background-color: white;
+  }
+  .card-footer {
+    background-color: $accent;
+  }
+  .card-text {
+    font-size: 1em;
+    text-align: justify;
+  }
+
+  .appimage {
+    // background-color:yellow;
+    height: 100px;
+  }
+  img {
+    // margin-left: -99px;
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+  }
+}
