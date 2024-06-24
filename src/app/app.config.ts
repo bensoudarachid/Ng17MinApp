@@ -1,5 +1,5 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from '@app/app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
@@ -19,7 +19,10 @@ import { AppHttpInterceptorOld } from './tenantapp/services/apphttp.interceptorO
 // import { AppHttpInterceptor } from './tenantapp/services/apphttp.interceptor';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes, withComponentInputBinding()), 
+    providers: [provideRouter(routes, withComponentInputBinding(), withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
+      })), 
     CookieService,
     provideClientHydration(), 
     provideAnimationsAsync(), 

@@ -1,4 +1,4 @@
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NavComponent } from './tenantapp/shared/components/nav/nav.component';
 
 //import { ApiConnection } from '@tenantapp/services/api-connection.service'
@@ -35,7 +35,7 @@ declare var $: any
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule,FormsModule,RouterOutlet,NavComponent],
+  imports: [CommonModule,FormsModule,RouterLink,RouterOutlet,NavComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

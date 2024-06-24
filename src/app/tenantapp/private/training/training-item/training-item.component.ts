@@ -7,7 +7,6 @@ import { AppImageComponent } from '@src/app/shared/components/app-image/app-imag
 @Component({
   selector: 'app-training-item',
   standalone: true,
-  
   imports: [RouterLink,RouterModule,MaterialModule,CommonModule,AppImageComponent],
   // imports: [MaterialModule,CommonModule],
   templateUrl: './training-item.component.html',

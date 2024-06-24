@@ -22,37 +22,40 @@ export const routes: Routes = [
         children: [
             {   path:'',component:HomeComponent},
             {
+                path:'trainings/list',
+                // loadComponent:()=>import('./tenantapp/private/training/training-admin-details/training-admin-details.component').then(m=>m.TrainingAdminDetailsComponent), 
+                component:TrainingappPubComponent,
+                // canActivate: [authGuard] 
+            },
+            {
                 path:'trainings',
                 // loadChildren: () => import('@src/app/tenantapp/private/training/training-routing.module').then(m => m.TrainingRoutingModule)
+                loadChildren: () => import('@src/app/tenantapp/private/training/training.routes').then(m => m.TRAINING_ROUTES),
+                // loadChildren: () => import('@src/app/tenantapp/private/training/training.module').then(m => m.TrainingModule)
                 // loadComponent:()=>import('./tenantapp/*/*.component').then(m=>m.TrainingappComponent),
-                children: [
-                    {   path:'list',
-                        loadComponent:()=>import('./tenantapp/public/training/trainingapp/trainingapp.component').then(m=>m.TrainingappPubComponent), 
-                        // component:TrainingappPubComponent,
-                        canActivate: [authGuard] },
-                    {
-                        path:'',
-                        loadComponent:()=>import('./tenantapp/private/training/trainingapp/trainingapp.component').then(m=>m.TrainingappComponent), 
-                        // component:TrainingappComponent,
-                        // children: [
-                        //     {   path:'training/:id',component:TrainingAdminDetailsComponent}
-                        // ],
-                        canActivate: [authGuard] 
-                    },
-                    {
-                        path:':id',
-                        loadComponent:()=>import('./tenantapp/private/training/training-admin-details/training-admin-details.component').then(m=>m.TrainingAdminDetailsComponent), 
-                        // component:TrainingAdminDetailsComponent,
-                        canActivate: [authGuard] 
-                    }
-                ]
+                // children: [
+                //     {   path:'list',
+                //         // loadComponent:()=>import('./tenantapp/public/training/trainingapp/trainingapp.component').then(m=>m.TrainingappPubComponent), 
+                //         component:TrainingappPubComponent,
+                //         canActivate: [authGuard] 
+                //     },
+                    // {
+                    //     path:'',
+                    //     // loadComponent:()=>import('./tenantapp/private/training/trainingapp/trainingapp.component').then(m=>m.TrainingappComponent), 
+                    //     component:TrainingappComponent,
+                    //     // children: [
+                    //     //     {   path:'training/:id',component:TrainingAdminDetailsComponent}
+                    //     // ],
+                    //     canActivate: [authGuard] 
+                    // },
+                    // {
+                    //     path:':id',
+                    //     // loadComponent:()=>import('./tenantapp/private/training/training-admin-details/training-admin-details.component').then(m=>m.TrainingAdminDetailsComponent), 
+                    //     component:TrainingAdminDetailsComponent,
+                    //     canActivate: [authGuard] 
+                    // }
+                // ]
             },
-            // {
-            //     path:'training/:id',
-            //     loadComponent:()=>import('./tenantapp/private/training/training-admin-details/training-admin-details.component').then(m=>m.TrainingAdminDetailsComponent), 
-            //     // component:TrainingItemComponent,
-            //     canActivate: [authGuard] 
-            // }
 ]
     },
     // {path:'trainings',component:TrainingappComponent}
