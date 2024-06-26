@@ -99,8 +99,8 @@ export const AppSignalStore = signalStore(
             // console.log('Observable RefreshToken. userAccessData:'+JSON.stringify(userAccessData2, null, 2))
 
             patchState(store, (store)=>( { auth:{...store.auth,  isFetching: true  }}))
-            await lastValueFrom(authService.logout());
             authService.resetAuthData()
+            await lastValueFrom(authService.logout());
             stopPolling.next('logout')
             // authService.stopRefreshTokenTimer()
             // cookieService.deleteAll('')

@@ -67,7 +67,7 @@ export class AuthService {
     ).pipe(
       catchError(error => {
         console.error('Error while refreshing token: ', error);
-        return throwError(()=> new Error('Error while refreshing token:. Something went wrong; please try again later.'));
+        return throwError(()=> new Error('Error while refreshing token: Something went wrong; please try again later.'));
       })
     );
   }
@@ -92,7 +92,12 @@ export class AuthService {
       ApiConnection.API_ENDPOINT + '/oauth/logout',
       body.toString(),
       httpOptions
-    )
+    ).pipe(
+      catchError(error => {
+        console.error('Error while logging out: ', error);
+        return throwError(()=> new Error('Error while logging out: Something went wrong; please try again later.'));
+      })
+    );
   }
 
 
