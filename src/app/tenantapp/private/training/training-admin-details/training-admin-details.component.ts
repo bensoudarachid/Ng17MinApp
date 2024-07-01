@@ -1,10 +1,11 @@
+// reactive forms: https://www.youtube.com/watch?v=U9Xo0wXZIAg
 // declare var require: any
 
 //import { Observable } from "rxjs/observable";
 import { Observable } from 'rxjs'
 import { Store } from '@ngrx/store'
 import { Component, OnInit, model } from '@angular/core'
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
+import { FormBuilder, FormGroup, Validators, FormControl, ReactiveFormsModule } from '@angular/forms'
 // import { MyErrorStateMatcher } from '@tenantapp/services/validation/myerrorstatematcher'
 import { ActivatedRoute, RouterLink } from '@angular/router'
 import { Training } from '@src/_model/Training'
@@ -18,7 +19,7 @@ declare var $: any
 @Component({
   selector: 'app-training-admin-details',
   standalone: true,
-  imports: [RouterLink,MaterialModule,CommonModule,AppImageComponent],
+  imports: [RouterLink,ReactiveFormsModule,MaterialModule,CommonModule,AppImageComponent],
   // imports: [MaterialModule,CommonModule],
   templateUrl: './training-admin-details.component.html',
   styleUrl: './training-admin-details.component.scss'
@@ -33,11 +34,20 @@ export class TrainingAdminDetailsComponent implements OnInit {
   //  training: Training
   rForm: FormGroup
   // matcher = new MyErrorStateMatcher()
-
+  trainingForm = this.fb.group({
+    title: ['',Validators.required],
+    secondaryTitle: [''],
+    roleId: 1
+  })
+  isSubmitted = false;
+  roles=[
+    {id:1, title:'developer'},
+    {id:2, title:'qa'},
+  ]
   constructor(
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    
+    private fb: FormBuilder
   ) {
     // console.log(
     //   'Constructor. training ' +
@@ -118,6 +128,11 @@ export class TrainingAdminDetailsComponent implements OnInit {
     
     if( typeof $ === "undefined")
       return;
+    this.trainingForm.get('roleId')?.valueChanges.subscribe(
+      roleId => {
+        console.log('role changed to ', roleId)
+      })
+    
     // this.setEvents([
     //   {
     //     // title: 'This is your',
@@ -217,29 +232,31 @@ export class TrainingAdminDetailsComponent implements OnInit {
     //   }
     // }
   }
-  submit(value: any) {
+  onSubmit() {
+    console.log('submitted form=', this.trainingForm.value,this.trainingForm.invalid)
+    this.isSubmitted=true;
     // console.log('value=' + require('util').inspect(value, false, null))
-    var events = $('#calendar').fullCalendar('clientEvents')
+    // var events = $('#calendar').fullCalendar('clientEvents')
     // console.log(
     //   'get events=' + require('util').inspect(events[0].start, false, null)
     // )
     // this.training.events = []
-    for (var i = 0; i < events.length; i++) {
-      var start = new Date(events[i].start._d)
-      var end: Date
-      if (events[i].end != null) {
-        end = new Date(events[i].end._d)
-      }
-      var id: number = events[i].id
-      var number = events[i].number
-      var version = events[i].version
-      // this.training.events.push({ id, start, end, number, version })
-    }
+    // for (var i = 0; i < events.length; i++) {
+    //   var start = new Date(events[i].start._d)
+    //   var end: Date
+    //   if (events[i].end != null) {
+    //     end = new Date(events[i].end._d)
+    //   }
+    //   var id: number = events[i].id
+    //   var number = events[i].number
+    //   var version = events[i].version
+    //   // this.training.events.push({ id, start, end, number, version })
+    // }
     // console.log(
     //   'submit this.training.events=' +
     //     require('util').inspect(this.training.events, false, null)
     // )
-    let tr = { ...this.training, ...value }
+    // let tr = { ...this.training, ...value }
     // console.log(
     //   'TrainingAdminAppComponent save submit  =' +
     //     require('util').inspect(tr, false, null)
@@ -248,6 +265,10 @@ export class TrainingAdminDetailsComponent implements OnInit {
     //   // new TrainingActions.SaveTraining({ id: this.training.id, ...value }, this.file)
     //   new TrainingActions.SaveTraining(tr, this.file)
     // )
+  }
+  validateTitle(){
+    // return this.trainingForm.get('title')?.invalid && (this.trainingForm.get('title')?.dirty || this.trainingForm.get('title')?.touched || this.isSubmitted)
+    return this.trainingForm.get('title')?.hasError('required') && (this.trainingForm.get('title')?.dirty || this.trainingForm.get('title')?.touched || this.isSubmitted)
   }
   addEvent() {
     $('#calendar').fullCalendar('removeEvents', 0)

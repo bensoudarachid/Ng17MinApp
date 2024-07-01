@@ -2,6 +2,36 @@
 <section class="card" style="width:95%;margin: 0 auto;">
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12 mb-r">
+      <form id="trainingdetailsform" [formGroup]="trainingForm" (ngSubmit)="onSubmit()">
+        <p class="h5 text-center mb-4">Edit Training now</p>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>title</label>
+            <input
+              type="text"
+              formControlName="title"
+              [class.invalid]="validateTitle()"
+            />
+            <span *ngIf="validateTitle()" class="error">this field is required</span>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label>2nd title</label>
+            <input
+              type="text"
+              formControlName="secondaryTitle"
+            />
+          </div>
+        </div>
+
+        <select formControlName="roleId">
+          <option *ngFor="let role of roles" [ngValue]="role.id">{{role.title}}</option>
+        </select>
+
+        <div class="text-center">
+          <button type="submit">Submit</button>
+        </div>
+      </form>      
       <!-- <form
         id="trainingdetailsform"
         [formGroup]="rForm"
