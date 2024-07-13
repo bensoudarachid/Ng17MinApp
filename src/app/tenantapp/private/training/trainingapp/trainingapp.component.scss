@@ -1,1 +1,11 @@
+@use '@angular/material' as mat;
 @import '@src/styles.scss';
+@include mat.core();
+
+h1 {
+     background-color: #aaa;
+     // background-color: $my-warn, 800;
+     // background-color: lighten(mat.get-color-from-palette($primary, 800),40%);
+     // background-color: lighten($primary-color, 10%);
+     color: #fff;
+}

@@ -13,13 +13,14 @@ import { TrEvent } from '@src/_model/trevent'
 import { AppImageComponent } from '@app/shared/components/app-image/app-image.component'
 import { CommonModule } from '@angular/common'
 import { MaterialModule } from '@src/_module/Material.Module'
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 // import * as $ from 'jquery'
 declare var $: any
 
 @Component({
   selector: 'app-training-admin-details',
   standalone: true,
-  imports: [RouterLink,ReactiveFormsModule,MaterialModule,CommonModule,AppImageComponent],
+  imports: [RouterLink,ReactiveFormsModule,MaterialModule,CommonModule,AppImageComponent,NgbAlert],//,NgbAlert
   // imports: [MaterialModule,CommonModule],
   templateUrl: './training-admin-details.component.html',
   styleUrl: './training-admin-details.component.scss'

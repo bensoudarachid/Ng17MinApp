@@ -12,7 +12,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, inject } from 
 
 import { FormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common'
-import { ModalModule, WavesModule, InputsModule } from 'angular-bootstrap-md'
+//import { ModalModule, WavesModule, InputsModule } from 'angular-bootstrap-md'
 
 import { ApiConnection } from '@src/app/shared/services/api-connection.service'
 import { Store } from '@ngrx/store'
@@ -51,6 +51,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   isTenantApp = ApiConnection.isTenantApp
   // @ViewChild('loginform', { static: false }) loginForm:ElementRef<any>
   @ViewChild('loginform') loginForm:any
+  
   @ViewChild('errordlg', { static: false }) errorDlg:any
 
   constructor(

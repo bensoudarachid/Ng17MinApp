@@ -2,10 +2,11 @@
 @import '@src/styles.scss';
 @include mat.core();
 .card {
-//    background-color: $primary;
-//   background-color: mat.mat-color($primary, darker);
-   background-color: mat.get-color-from-palette($my-primary, 100);
-//    background-color: lighten($primary, 50%);
+//    background-color: $primary-color;
+//   background-color: mat.mat-color($primary-color, darker);
+   background-color: $primary;
+  //  background-color: mat.get-color-from-palette($primary, 100);
+//    background-color: lighten($primary-color, 50%);
 //   background-color: rgb(215, 236, 255);
 
   .card-body {

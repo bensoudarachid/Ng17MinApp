@@ -4,7 +4,7 @@
 .card {
 //    background-color: $primary;
 //   background-color: mat.mat-color($primary, darker);
-   background-color: mat.get-color-from-palette($my-primary, 100);
+   background-color: $primary;
 //    background-color: lighten($primary, 50%);
 //   background-color: rgb(215, 236, 255);
 

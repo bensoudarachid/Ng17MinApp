@@ -11,12 +11,14 @@
       <button mat-button (click)="signOut()" >Logout</button>
     } @else {
       <button routerLink="trainings/list" mat-button>Trainings</button>
-      <button mat-button data-bs-toggle="modal" data-bs-target="#modalLogin" >Login</button>
+      <button mat-button data-toggle="modal" data-target="#modalLogin" >Login</button>
     }
     <!-- (click)="startLogin() -->
 
 </mat-toolbar>
 <!-- 
-<button *ngIf="appSignalStore.auth.isAuthenticated()==true" mat-button (click)="signOut()" >Logout</button>
+      <button mat-button data-bs-toggle="modal" data-bs-target="#modalLogin" >Login</button>
+
+  <button *ngIf="appSignalStore.auth.isAuthenticated()==true" mat-button (click)="signOut()" >Logout</button>
 <button *ngIf="appSignalStore.auth.isAuthenticated()==false||appSignalStore.auth.isAuthenticated()==undefined" mat-button data-bs-toggle="modal" data-bs-target="#modalLogin" >Login</button> 
 -->
