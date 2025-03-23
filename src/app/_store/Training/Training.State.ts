@@ -2,10 +2,13 @@ import { TrainingModel } from "@model/TrainingModel";
 
 export const trainingState: TrainingModel = {
     list: [],
-    errormessage: '',
-    editdata:{
-        id: "",
+    errorMessage: '',
+    editData:{
+        id: -1,
         title: "",
-        shortDescription: ""     
-    }
+        secondaryTitle: "",
+        shortDescription: "",
+        longDescription: "",
+        duration: 0
+      }
 }

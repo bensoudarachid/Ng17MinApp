@@ -9,5 +9,5 @@ export const getTrainingList = createSelector(gettrainingstate, (state) => {
 })
 
 export const getEditdata = createSelector(gettrainingstate, (state) => {
-    return state.editdata;
+    return state.editData;
 })

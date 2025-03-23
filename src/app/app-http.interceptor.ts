@@ -43,7 +43,7 @@ export const appHttpInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService)
   const appSignalStore = inject(AppSignalStore)
   const cookieService = inject(CookieService)
-  console.log('appHttpInterceptor. Go for url: '+req.url)
+  // console.log('appHttpInterceptor. Go for url: '+req.url)
   if (req.url.endsWith('/oauth/token') && !req.url.endsWith('/oauth/logout')){
     return next(req).pipe(
       catchError((error) => {
@@ -67,7 +67,7 @@ export const appHttpInterceptor: HttpInterceptorFn = (req, next) => {
   // return next(req);
 
   const jwt = cookieService.get('jwt')
-  console.log('appHttpInterceptor. accessToken:  '+jwt)
+  // console.log('appHttpInterceptor. accessToken:  '+jwt)
 
   if (jwt!=null && jwt!='') {
     req = addAuthorizationHeader(req, jwt);

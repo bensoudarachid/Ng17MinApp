@@ -7,23 +7,43 @@
     <div class="col-sm-12 col-md-12 col-lg-12 mb-r">
       <form id="trainingdetailsform" [formGroup]="trainingForm" (ngSubmit)="onSubmit()">
         <p class="h5 text-center mb-4">Edit Training now</p>
+        <!-- [value]="appSignalStore.training.editData.title()" -->
+
         <div class="form-row">
           <div class="form-group col-md-6">
             <label>title</label>
             <input
               type="text"
               formControlName="title"
-              [class.invalid]="validateTitle()"
+              [class.invalid]="!isTitleValid()"
             />
-            <span *ngIf="validateTitle()" class="error">this field is required</span>
+            <span *ngIf="!isTitleValid()" class="error">{{titleError}}</span>
           </div>
-
           <div class="form-group col-md-6">
-            <label>2nd title</label>
+            <label>secondary title</label>
             <input
               type="text"
               formControlName="secondaryTitle"
+              [class.invalid]="validateSecondaryTitle()"
             />
+            <span *ngIf="validateSecondaryTitle()" class="error">this field is required</span>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label>short Description</label>
+            <input
+              type="text"
+              formControlName="shortDescription"
+            />
+            <span *ngIf="validateShortDescription()" class="error">this field is required</span>
+          </div>
+          <div class="form-group col-md-6">
+            <label>long Description</label>
+            <input
+              type="text"
+              formControlName="longDescription"
+            />
+            <span *ngIf="validateLongDescription()" class="error">this field is required</span>
           </div>
         </div>
 
@@ -32,7 +52,7 @@
         </select>
 
         <div class="text-center">
-          <button type="submit">Submit</button>
+          <button [disabled]="this.trainingForm.invalid" type="submit">Submit</button>
         </div>
       </form>      
       <!-- <form

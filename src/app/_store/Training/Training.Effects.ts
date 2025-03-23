@@ -17,7 +17,7 @@ export class TrainingEffects {
             ofType(loadTraining),
             exhaustMap((action) => {
                 console.log('training effect. load trainings by calling service')
-                return this.service.getTrainings().pipe(
+                return this.service.getTrainings3().pipe(
                     map((data) => {
                         return loadTrainingSuccess({ list: data })
                     }),

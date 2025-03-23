@@ -1,4 +1,5 @@
 import { Training } from './Training'
+import { TrainingModel } from './TrainingModel'
 
 export interface AppModel{
   auth:{
@@ -9,9 +10,10 @@ export interface AppModel{
     registrationStep: number
     registrationError: any
   },
-  training:{
-    list:Training[],
-    errorMessage:string,
-    editdata:Training
-  }   
+  training:TrainingModel
+  // {
+  //   list:Training[],
+  //   errorMessage:string,
+  //   editdata:Training
+  // }   
 }

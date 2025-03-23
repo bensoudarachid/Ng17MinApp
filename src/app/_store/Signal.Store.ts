@@ -23,10 +23,13 @@ const initialState: AppModel = {
   training: {
     list: [], //<Training[]>
     errorMessage: 'wow',
-    editdata:{
-        id: "",
-        title: "",
-        shortDescription: ""     
+    editData:{
+      id: -1,
+      title: "",
+      secondaryTitle: "",
+      shortDescription: "",
+      longDescription: "",
+      duration: 0
     },
   },
 
@@ -57,6 +60,78 @@ export const AppSignalStore = signalStore(
                //       map((p) => p)
                //     );
           },
+          async loadTrainingAsync(trainingId: Number){
+            var tr: Training
+            try{
+              // console.log('loadTrainingAsync. trainingId:'+trainingId)
+              console.log('loadTrainingAsync. store.training.list before:',store.training.list())
+              patchState(store, (store)=>( { training:{...store.training,  editData:{
+                id: -1,
+                title: "",
+                secondaryTitle: "",
+                shortDescription: "",
+                longDescription: "",
+                duration: 0
+              }
+              }}))
+              tr = await lastValueFrom(trainingsService.getTraining(trainingId));
+              // console.log('loadTrainingAsync. service get data. value:'+JSON.stringify(tr, null, 2) )
+              // const lastList = store.training.list();
+              // console.log('loadAllTrainingsAsync.Store training:'+JSON.stringify(store.training(), null, 2) )
+              let arr = store.training.list();
+              let index = arr.findIndex(item => item.id === trainingId);
+              if (index !== -1 ) {
+                  arr[index] = tr; // Replaces the object with id 2
+              }
+              
+              // patchState(store, (store)=>( { training:{...store.training,  editData:tr  }}))
+              // patchState(store, (store)=>( { training:{...store.training,  list:arr  }}))
+              patchState(store, (store)=>( { training:{...store.training,  list:arr, editData:tr  }}))
+              // console.log('loadTrainingAsync. store.training.list after:',store.training())
+  
+              
+            }catch (error) {
+              console.log('loadTrainingAsync. service get data. wahnsinn error:')
+            }
+          },
+          async saveTrainingAsync(trainingFormValue: Training){
+            var tr: Training
+            try{
+              console.log('saveTrainingAsync. form data:', trainingFormValue)
+
+              console.log('saveTrainingAsync. edit training :', store.training.editData())
+              Object.assign(store.training.editData(), trainingFormValue);
+              console.log('saveTrainingAsync. edit training after assign:', store.training.editData())
+              // patchState(store, (store)=>( { training:{...store.training,  editData:{
+              //   id: -1,
+              //   title: "",
+              //   secondaryTitle: "",
+              //   shortDescription: "",
+              //   longDescription: "",
+              //   duration: 0
+              // }
+              // }}))
+              tr = await lastValueFrom(trainingsService.saveTraining(store.training.editData() ));
+              // console.log('loadTrainingAsync. service get data. value:'+JSON.stringify(tr, null, 2) )
+              // const lastList = store.training.list();
+              // console.log('loadAllTrainingsAsync.Store training:'+JSON.stringify(store.training(), null, 2) )
+              let arr = store.training.list();
+              let index = arr.findIndex(item => item.id === store.training.editData.id() );
+              if (index !== -1 ) {
+                  arr[index] = tr; // Replaces the object with id 2
+              }
+              
+              // patchState(store, (store)=>( { training:{...store.training,  editData:tr  }}))
+              // patchState(store, (store)=>( { training:{...store.training,  list:arr  }}))
+              patchState(store, (store)=>( { training:{...store.training,  list:arr, editData:tr  }}))
+              // console.log('loadTrainingAsync. store.training.list after:',store.training())
+  
+              
+            }catch (error) {
+              console.log('loadTrainingAsync. service get data. wahnsinn error:')
+            }
+          },
+
           loadAllTrainings() {
                trainingsService.getTrainings3().subscribe((list) => {
                 //  console.log('loadAllTrainings tani dima. service get data:'+JSON.stringify(list, null, 2) )

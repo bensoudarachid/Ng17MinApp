@@ -4,7 +4,7 @@
 //import { Observable } from "rxjs/observable";
 import { Observable } from 'rxjs'
 import { Store } from '@ngrx/store'
-import { Component, OnInit, model } from '@angular/core'
+import { Component, OnInit, effect, inject, model } from '@angular/core'
 import { FormBuilder, FormGroup, Validators, FormControl, ReactiveFormsModule } from '@angular/forms'
 // import { MyErrorStateMatcher } from '@tenantapp/services/validation/myerrorstatematcher'
 import { ActivatedRoute, RouterLink } from '@angular/router'
@@ -14,6 +14,7 @@ import { AppImageComponent } from '@app/shared/components/app-image/app-image.co
 import { CommonModule } from '@angular/common'
 import { MaterialModule } from '@src/_module/Material.Module'
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { AppSignalStore } from '@src/app/_store/Signal.Store'
 // import * as $ from 'jquery'
 declare var $: any
 
@@ -26,6 +27,8 @@ declare var $: any
   styleUrl: './training-admin-details.component.scss'
 })
 export class TrainingAdminDetailsComponent implements OnInit {
+  appSignalStore = inject(AppSignalStore)
+
   markColor = '#ff9efb'
   normalColor = '#4499ff'
   routeId: Number
@@ -33,20 +36,25 @@ export class TrainingAdminDetailsComponent implements OnInit {
   // training$: Observable<Training> = of(null)
   // file: File
   //  training: Training
-  rForm: FormGroup
-  // matcher = new MyErrorStateMatcher()
-  trainingForm = this.fb.group({
-    title: ['',Validators.required],
-    secondaryTitle: [''],
+  // rForm: FormGroup
+  trainingForm: FormGroup = this.fb.group({
+    title: ['',Validators.compose([Validators.required, Validators.maxLength(20)])],
+    secondaryTitle: ['',Validators.compose([Validators.required, Validators.maxLength(40)])],
+    shortDescription: [
+      null,
+      Validators.compose([Validators.required, Validators.maxLength(80)]),
+    ],
+    longDescription: [null, Validators.compose([Validators.maxLength(280)])],
     roleId: 1
   })
+  titleError:string=''
   isSubmitted = false;
   roles=[
     {id:1, title:'developer'},
     {id:2, title:'qa'},
   ]
   constructor(
-    private formBuilder: FormBuilder,
+    // private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {
@@ -55,23 +63,42 @@ export class TrainingAdminDetailsComponent implements OnInit {
     //     require('util').inspect(this.training, false, null)
     // )
 
-    this.rForm = formBuilder.group({
-      title: [
-        null,
-        Validators.compose([Validators.required, Validators.maxLength(20)]),
-      ],
-      secondaryTitle: [
-        null,
-        Validators.compose([Validators.required, Validators.maxLength(40)]),
-      ],
-      shortDescription: [
-        null,
-        Validators.compose([Validators.required, Validators.maxLength(80)]),
-      ],
-      longDescription: [null, Validators.compose([Validators.maxLength(280)])],
-    })
+    // this.rForm = formBuilder.group({
+    //   title: [
+    //     "abbas",
+    //     Validators.compose([Validators.required, Validators.maxLength(20)]),
+    //   ],
+    //   secondaryTitle: [
+    //     null,
+    //     Validators.compose([Validators.required, Validators.maxLength(40)]),
+    //   ],
+    //   shortDescription: [
+    //     null,
+    //     Validators.compose([Validators.required, Validators.maxLength(80)]),
+    //   ],
+    //   longDescription: [null, Validators.compose([Validators.maxLength(280)])],
+    // })
     this.routeId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
-    // console.log('-------- id = ' + this.routeId)
+    console.log('-------- id = ' + this.routeId)
+    this.appSignalStore.loadTrainingAsync(this.routeId);
+    this.training=this.appSignalStore.training.editData();
+    console.log('-------- training = ', this.training)
+          
+
+    effect(() => {  
+      // console.log(`The current tr is: `+JSON.stringify(this.appSignalStore.training.editData().title, null, 2) );
+      console.log('The current tr is: ',this.appSignalStore.training.editData.title() );
+      this.trainingForm.setValue({
+        title: this.appSignalStore.training.editData.title(), 
+        secondaryTitle: this.appSignalStore.training.editData.secondaryTitle(), 
+        shortDescription: this.appSignalStore.training.editData.shortDescription(), 
+        longDescription: this.appSignalStore.training.editData.longDescription(), 
+        roleId: 1, 
+      });
+    })
+    
+
+    
     // this.activatedRoute.queryParams.subscribe(params => {
     //   let id = params['id']
     //   console.log('-------- id = ' + id) // Print the parameter to the console.
@@ -122,7 +149,7 @@ export class TrainingAdminDetailsComponent implements OnInit {
     // console.log(
     //   'error ' + this.rForm.controls[controlName].hasError(errorName)
     // )
-    return this.rForm.controls[controlName].hasError(errorName)
+    return this.trainingForm.controls[controlName].hasError(errorName)
   }
 
   ngOnInit() {
@@ -235,7 +262,11 @@ export class TrainingAdminDetailsComponent implements OnInit {
   }
   onSubmit() {
     console.log('submitted form=', this.trainingForm.value,this.trainingForm.invalid)
-    this.isSubmitted=true;
+    this.isSubmitted=true
+    this.trainingForm.markAsTouched()
+    // debugger;
+    if(! this.trainingForm.invalid)
+      this.appSignalStore.saveTrainingAsync(this.trainingForm.value);
     // console.log('value=' + require('util').inspect(value, false, null))
     // var events = $('#calendar').fullCalendar('clientEvents')
     // console.log(
@@ -267,9 +298,55 @@ export class TrainingAdminDetailsComponent implements OnInit {
     //   new TrainingActions.SaveTraining(tr, this.file)
     // )
   }
-  validateTitle(){
+  isTitleDirtyTouchedOrSubmitted(field:string){
+    return (this.trainingForm.get(field)?.dirty || this.trainingForm.get(field)?.touched || this.isSubmitted)
+  }  
+  isTitleValid(){
+    this.titleError=''
+    if( !this.isTitleDirtyTouchedOrSubmitted('title') ) return true
+    if( this.trainingForm.get('title')?.hasError('required') ){
+      this.titleError='required'
+      console.log('title valid - required: ', false)
+      return false
+    }
+    else if( this.trainingForm.get('title')?.hasError('maxlength') ){
+      this.titleError='max length exceeded'
+      console.log('title valid - maxlength: ', false)
+      return false
+    }
     // return this.trainingForm.get('title')?.invalid && (this.trainingForm.get('title')?.dirty || this.trainingForm.get('title')?.touched || this.isSubmitted)
-    return this.trainingForm.get('title')?.hasError('required') && (this.trainingForm.get('title')?.dirty || this.trainingForm.get('title')?.touched || this.isSubmitted)
+    
+    // console.log('title errors: ', this.trainingForm.get('title')?.errors?.['maxlength'])
+    // console.log('title errors: ', this.trainingForm.get('title')?.hasError('maxlength'))
+    // console.log('title valid: ', true)
+    return true
+  }
+
+  validateRequiredTitle(){
+    // return this.trainingForm.get('title')?.invalid && (this.trainingForm.get('title')?.dirty || this.trainingForm.get('title')?.touched || this.isSubmitted)
+    
+    // console.log('title errors: ', this.trainingForm.get('title')?.errors?.['maxlength'])
+    // console.log('title errors: ', this.trainingForm.get('title')?.hasError('maxlength'))
+    return this.trainingForm.get('title')?.hasError('required') 
+  }
+  validateMaxLengthTitle(){
+    // return this.trainingForm.get('title')?.invalid && (this.trainingForm.get('title')?.dirty || this.trainingForm.get('title')?.touched || this.isSubmitted)
+    
+    // console.log('title errors: ', this.trainingForm.get('title')?.errors?.['maxlength'])
+    // console.log('title errors: ', this.trainingForm.get('title')?.hasError('maxlength'))
+    return this.trainingForm.get('title')?.hasError('maxlength') 
+  }
+  validateSecondaryTitle(){
+    // return this.trainingForm.get('title')?.invalid && (this.trainingForm.get('title')?.dirty || this.trainingForm.get('title')?.touched || this.isSubmitted)
+    return this.trainingForm.get('secondaryTitle')?.hasError('required') && (this.trainingForm.get('secondaryTitle')?.dirty || this.trainingForm.get('secondaryTitle')?.touched || this.isSubmitted)
+  }
+  validateShortDescription(){
+    // return this.trainingForm.get('title')?.invalid && (this.trainingForm.get('title')?.dirty || this.trainingForm.get('title')?.touched || this.isSubmitted)
+    return this.trainingForm.get('shortDescription')?.hasError('required') && (this.trainingForm.get('shortDescription')?.dirty || this.trainingForm.get('shortDescription')?.touched || this.isSubmitted)
+  }
+  validateLongDescription(){
+    // return this.trainingForm.get('title')?.invalid && (this.trainingForm.get('title')?.dirty || this.trainingForm.get('title')?.touched || this.isSubmitted)
+    return this.trainingForm.get('longDescription')?.hasError('required') && (this.trainingForm.get('longDescription')?.dirty || this.trainingForm.get('longDescription')?.touched || this.isSubmitted)
   }
   addEvent() {
     $('#calendar').fullCalendar('removeEvents', 0)

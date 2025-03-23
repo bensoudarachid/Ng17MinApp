@@ -31,7 +31,7 @@ const _TrainingReducer = createReducer(trainingState,
         }
     }),
     on(deleteTrainingSuccess, (state, action) => {
-        let _newdata=state.list.filter(o=>o.id!=action.code);
+        let _newdata=state.list.filter(o=>""+o.id!==action.code);
         return {
             ...state,
             list: _newdata,
