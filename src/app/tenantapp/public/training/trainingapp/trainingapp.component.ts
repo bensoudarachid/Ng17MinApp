@@ -5,8 +5,6 @@ import { TrainingItemComponent } from '../training-item/training-item.component'
 import { MaterialModule } from '@src/_module/Material.Module';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { loadTraining } from '@src/app/_store/Training/Training.Actions';
-import { getTrainingList } from '@src/app/_store/Training/Training.Selector';
 import { AppImageComponent } from '@src/app/shared/components/app-image/app-image.component';
 import { AppSignalStore } from '@src/app/_store/Signal.Store';
 declare var $: any

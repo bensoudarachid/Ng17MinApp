@@ -8,8 +8,6 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular
 // import { apphttpInterceptor } from '@app/tenantapp/services/apphttp.interceptor';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
-import { TrainingReducer } from '@app/_store/Training/Training.Reducer';
-import { TrainingEffects } from '@app/_store/Training/Training.Effects';
 import { AuthReducer } from '@app/_store/Auth/Auth.Reducer';
 import { AuthEffects } from '@app/_store/Auth/Auth.Effects';
 import { CookieService } from 'ngx-cookie-service';
@@ -30,6 +28,6 @@ export const appConfig: ApplicationConfig = {
     // provideHttpClient(withInterceptors([AppHttpInterceptor.intercept()])), 
     // provideHttpClient(), 
     // { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptorOld, multi: true },
-    provideStore({'auth':AuthReducer,'training':TrainingReducer}), 
-    provideEffects([AuthEffects, TrainingEffects])]
+    provideStore({'auth':AuthReducer}), 
+    provideEffects([AuthEffects])]
 };
