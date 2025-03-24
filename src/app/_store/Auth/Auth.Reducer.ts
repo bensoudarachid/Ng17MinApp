@@ -42,7 +42,6 @@ const _AuthReducer = createReducer(authState,
 
 )
 
-
 export function AuthReducer(state: any, action: any) {
     return _AuthReducer(state, action)
 }

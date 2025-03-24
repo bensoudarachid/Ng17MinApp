@@ -74,6 +74,9 @@ export const AppSignalStore = signalStore(
                 duration: 0
               }
               }}))
+              if( trainingId == -1)
+                return
+
               tr = await lastValueFrom(trainingsService.getTraining(trainingId));
               // console.log('loadTrainingAsync. service get data. value:'+JSON.stringify(tr, null, 2) )
               // const lastList = store.training.list();
@@ -88,7 +91,6 @@ export const AppSignalStore = signalStore(
               // patchState(store, (store)=>( { training:{...store.training,  list:arr  }}))
               patchState(store, (store)=>( { training:{...store.training,  list:arr, editData:tr  }}))
               // console.log('loadTrainingAsync. store.training.list after:',store.training())
-  
               
             }catch (error) {
               console.log('loadTrainingAsync. service get data. wahnsinn error:')
@@ -131,7 +133,17 @@ export const AppSignalStore = signalStore(
               console.log('loadTrainingAsync. service get data. wahnsinn error:')
             }
           },
-
+          async createNewTrainingAsync() {
+            const newTraining: Training = {
+              id: -1,
+              title: "",
+              secondaryTitle: "",
+              shortDescription: "",
+              longDescription: "",
+              duration: 0
+            };
+            patchState(store, (store)=>( { training:{...store.training, editData: newTraining }}));
+          },
           loadAllTrainings() {
                trainingsService.getTrainings3().subscribe((list) => {
                 //  console.log('loadAllTrainings tani dima. service get data:'+JSON.stringify(list, null, 2) )

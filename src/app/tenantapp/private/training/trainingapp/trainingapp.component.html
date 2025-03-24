@@ -1,6 +1,13 @@
 <h1>private trainingapp --- delete later</h1>  
 <div>
     <section class="container" style="width:95%;margin: 0 auto;">
+      <div class="row mb-3">
+        <div class="col">
+          <button mat-raised-button color="primary" (click)="onNewTraining()">
+            <mat-icon>add</mat-icon> New Training
+          </button>
+        </div>
+      </div>
       <div class="row">
         <div
           *ngFor="let training of appSignalStore.training.list()"

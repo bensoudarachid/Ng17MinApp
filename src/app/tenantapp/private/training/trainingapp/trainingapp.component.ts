@@ -5,6 +5,7 @@ import { TrainingItemComponent } from '../training-item/training-item.component'
 import { MaterialModule } from '@src/_module/Material.Module';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 
 import { AppImageComponent } from '@src/app/shared/components/app-image/app-image.component';
 import { AppSignalStore } from '@src/app/_store/Signal.Store';
@@ -21,6 +22,7 @@ export class TrainingappComponent implements OnInit {
   // constructor(private trainingsService: TrainingsService ) {}
   // trainingsService = inject(TrainingsService)
   appSignalStore = inject(AppSignalStore)
+  private router = inject(Router);
   constructor(private store: Store) { }
   trainings: Training[]=[];
   ngOnInit(): void {
@@ -47,5 +49,12 @@ export class TrainingappComponent implements OnInit {
     // // console.log('this.trainingList from model = '+JSON.stringify(this.trainingList, null, 2))
     // console.log('this.trainingList from model = ---')
     // console.log(this.trainings) // this puts also object structure out
+  }
+
+  async onNewTraining() {
+    await this.appSignalStore.createNewTrainingAsync();
+    // this.router.navigate(['/private/training/edit/-1']);
+    this.router.navigate(['/trainings/-1']);
+    
   }
 }

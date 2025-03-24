@@ -77,6 +77,7 @@ export class TrainingsService {
   }
   saveTraining(training: Training): Observable<Training> {
     console.log('TrainingsService. save training')
+    console.log(training.id)
     let headers = new HttpHeaders()
     var body = new FormData()
     body.append(
@@ -84,10 +85,15 @@ export class TrainingsService {
       new Blob([JSON.stringify(training)], { type: 'application/json' })
     )
     // body.append('uploadfile', trainingImageFile)
-
+    var endpoint = '/api/training/updatetraining/'
+    if(training.id == -1){
+      endpoint = '/api/training/savetraining/'
+    }
+    console.log('TrainingsService. call endpoint '+endpoint)
+    console.log(headers)
     return this.http
       .post<Training>(
-        ApiConnection.API_ENDPOINT + '/api/training/updatetraining/',
+        ApiConnection.API_ENDPOINT + endpoint,
         body,
         {
           headers: headers,
