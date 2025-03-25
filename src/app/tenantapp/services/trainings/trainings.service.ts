@@ -75,22 +75,26 @@ export class TrainingsService {
       })
     );
   }
-  saveTraining(training: Training): Observable<Training> {
-    console.log('TrainingsService. save training')
-    console.log(training.id)
-    let headers = new HttpHeaders()
-    var body = new FormData()
+  saveTraining(training: Training, file?: File | null): Observable<Training> {
+    console.log('TrainingsService. save training');
+    console.log(training.id);
+    let headers = new HttpHeaders();
+    var body = new FormData();
     body.append(
       'trainingParam',
       new Blob([JSON.stringify(training)], { type: 'application/json' })
-    )
-    // body.append('uploadfile', trainingImageFile)
-    var endpoint = '/api/training/updatetraining/'
-    if(training.id == -1){
-      endpoint = '/api/training/savetraining/'
+    );
+    
+    if (file) {
+      body.append('uploadfile', file);
     }
-    console.log('TrainingsService. call endpoint '+endpoint)
-    console.log(headers)
+  
+    var endpoint = '/api/training/updatetraining/';
+    if (training.id == -1) {
+      endpoint = '/api/training/savetraining/';
+    }
+  
+    console.log('TrainingsService. call endpoint ' + endpoint);
     return this.http
       .post<Training>(
         ApiConnection.API_ENDPOINT + endpoint,
@@ -101,17 +105,10 @@ export class TrainingsService {
       )
       .pipe(
         catchError(error => {
-          console.error('Error fetching trainigs JSON data:', JSON.stringify(error.message));
-          return throwError(()=> new Error('Something went wrong; please try again later.'));
+          console.error('Error saving training:', JSON.stringify(error.message));
+          return throwError(() => new Error('Something went wrong; please try again later.'));
         })
       );
-
-    // return this.http.get<any>(ApiConnection.API_ENDPOINT+'/api/training/item/'+trainingId).pipe(
-    //   catchError(error => {
-    //     console.error('Error fetching training JSON data:', JSON.stringify(error.message));
-    //     return throwError(()=> new Error('Something went wrong; please try again later.'));
-    //   })
-    // );
   }
 
   deleteTraining(trainingId: number): Observable<any> {

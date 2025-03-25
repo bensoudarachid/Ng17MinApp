@@ -53,6 +53,8 @@ export class TrainingAdminDetailsComponent implements OnInit {
     {id:1, title:'developer'},
     {id:2, title:'qa'},
   ]
+  selectedFile: File | null = null;
+
   constructor(
     // private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
@@ -260,43 +262,20 @@ export class TrainingAdminDetailsComponent implements OnInit {
     //   }
     // }
   }
-  onSubmit() {
-    console.log('submitted form=', this.trainingForm.value,this.trainingForm.invalid)
-    this.isSubmitted=true
-    this.trainingForm.markAsTouched()
-    // debugger;
-    if(! this.trainingForm.invalid)
-      this.appSignalStore.saveTrainingAsync(this.trainingForm.value);
-    // console.log('value=' + require('util').inspect(value, false, null))
-    // var events = $('#calendar').fullCalendar('clientEvents')
-    // console.log(
-    //   'get events=' + require('util').inspect(events[0].start, false, null)
-    // )
-    // this.training.events = []
-    // for (var i = 0; i < events.length; i++) {
-    //   var start = new Date(events[i].start._d)
-    //   var end: Date
-    //   if (events[i].end != null) {
-    //     end = new Date(events[i].end._d)
-    //   }
-    //   var id: number = events[i].id
-    //   var number = events[i].number
-    //   var version = events[i].version
-    //   // this.training.events.push({ id, start, end, number, version })
-    // }
-    // console.log(
-    //   'submit this.training.events=' +
-    //     require('util').inspect(this.training.events, false, null)
-    // )
-    // let tr = { ...this.training, ...value }
-    // console.log(
-    //   'TrainingAdminAppComponent save submit  =' +
-    //     require('util').inspect(tr, false, null)
-    // )
-    // this.store.dispatch(
-    //   // new TrainingActions.SaveTraining({ id: this.training.id, ...value }, this.file)
-    //   new TrainingActions.SaveTraining(tr, this.file)
-    // )
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
+  async onSubmit() {
+    console.log('submitted form=', this.trainingForm.value, this.trainingForm.invalid)
+    this.isSubmitted = true;
+    this.trainingForm.markAsTouched();
+    if (!this.trainingForm.invalid) {
+      await this.appSignalStore.saveTrainingAsync(this.trainingForm.value, this.selectedFile);
+    }
   }
   isTitleDirtyTouchedOrSubmitted(field:string){
     return (this.trainingForm.get(field)?.dirty || this.trainingForm.get(field)?.touched || this.isSubmitted)

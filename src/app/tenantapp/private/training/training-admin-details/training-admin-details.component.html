@@ -51,6 +51,15 @@
           <option *ngFor="let role of roles" [ngValue]="role.id">{{role.title}}</option>
         </select>
 
+        <div class="form-group">
+          <label>Training Image</label>
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            accept="image/*"
+          />
+        </div>
+
         <div class="text-center">
           <button [disabled]="this.trainingForm.invalid" type="submit">Submit</button>
         </div>
