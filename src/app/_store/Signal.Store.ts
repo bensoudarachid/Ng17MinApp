@@ -32,7 +32,9 @@ const initialState: AppModel = {
       duration: 0
     },
   },
-
+  ui: {
+    isSaving: false
+  }
 }
 
 const stopPolling = new Subject();
@@ -99,6 +101,7 @@ export const AppSignalStore = signalStore(
           async saveTrainingAsync(trainingFormValue: Training, file?: File | null) {
             var tr: Training;
             try {
+              patchState(store, (store) => ({ ui: { ...store.ui, isSaving: true } }));
               console.log('saveTrainingAsync. form data:', trainingFormValue);
               console.log('saveTrainingAsync. edit training :', store.training.editData());
               Object.assign(store.training.editData(), trainingFormValue);
@@ -116,6 +119,10 @@ export const AppSignalStore = signalStore(
               
             } catch (error) {
               console.log('saveTrainingAsync. service get data error:', error);
+            } finally {
+              setTimeout(() => {
+                patchState(store, (store) => ({ ui: { ...store.ui, isSaving: false } }));
+              }, 500); // Delay to ensure animation is visible
             }
           },
           async createNewTrainingAsync() {

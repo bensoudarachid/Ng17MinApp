@@ -11,6 +11,10 @@ export interface AppModel{
     registrationError: any
   },
   training:TrainingModel
+  ui: {
+    isSaving: boolean;
+  };
+
   // {
   //   list:Training[],
   //   errorMessage:string,

@@ -1,6 +1,6 @@
 <!-- <button routerLink="">Home</button>
 <button routerLink="trainings">Trainings</button> -->
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" [class.saving]="appSignalStore.ui.isSaving()">
     <button mat-icon-button>
         <mat-icon>menu</mat-icon>
     </button>

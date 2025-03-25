@@ -1,0 +1,7 @@
+mat-toolbar {
+  transition: background-color 0.3s ease;
+
+  &.saving {
+    background-color: #ff9800 !important; // Orange color
+  }
+}
