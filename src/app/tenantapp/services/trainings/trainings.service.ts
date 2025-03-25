@@ -114,6 +114,15 @@ export class TrainingsService {
     // );
   }
 
+  deleteTraining(trainingId: number): Observable<any> {
+    console.log('TrainingsService. delete training')
+    return this.http.delete<any>(ApiConnection.API_ENDPOINT+'/api/training/deletetraining/'+trainingId).pipe(
+      catchError(error => {
+        console.error('Error deleting training:', JSON.stringify(error.message));
+        return throwError(()=> new Error('Something went wrong while deleting; please try again later.'));
+      })
+    );
+  }
 
 }
 // export const getTrainings4 = (): () => Observable<Training[]> => {

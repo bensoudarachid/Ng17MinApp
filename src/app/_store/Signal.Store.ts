@@ -144,6 +144,16 @@ export const AppSignalStore = signalStore(
             };
             patchState(store, (store)=>( { training:{...store.training, editData: newTraining }}));
           },
+          async deleteTrainingAsync(trainingId: number) {
+            try {
+              await lastValueFrom(trainingsService.deleteTraining(trainingId));
+              let arr = store.training.list();
+              arr = arr.filter(item => item.id !== trainingId);
+              patchState(store, (store)=>( { training:{...store.training, list:arr }}));
+            } catch (error) {
+              console.log('deleteTrainingAsync error:', error);
+            }
+          },
           loadAllTrainings() {
                trainingsService.getTrainings3().subscribe((list) => {
                 //  console.log('loadAllTrainings tani dima. service get data:'+JSON.stringify(list, null, 2) )
