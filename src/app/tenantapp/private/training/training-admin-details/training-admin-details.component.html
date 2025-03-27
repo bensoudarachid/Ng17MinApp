@@ -14,11 +14,12 @@
               <div class="col-12 col-md-6">
                 <div class="form-group">
                   <label for="title">Title</label>
-                  <input
+                    <input
                     id="title"
                     type="text"
                     formControlName="title"
                     [class.invalid]="!isTitleValid()"
+                    [readonly]="appSignalStore.ui.isSaving()"
                   />
                   <span *ngIf="!isTitleValid()" class="error">{{titleError}}</span>
                 </div>
@@ -32,6 +33,7 @@
                     type="text"
                     formControlName="secondaryTitle"
                     [class.invalid]="validateSecondaryTitle()"
+                    [readonly]="appSignalStore.ui.isSaving()"
                   />
                   <span *ngIf="validateSecondaryTitle()" class="error">This field is required</span>
                 </div>
@@ -45,6 +47,7 @@
                     type="text"
                     formControlName="shortDescription"
                     [class.invalid]="validateShortDescription()"
+                    [readonly]="appSignalStore.ui.isSaving()"
                   />
                   <span *ngIf="validateShortDescription()" class="error">This field is required</span>
                 </div>
@@ -58,6 +61,7 @@
                     type="text"
                     formControlName="longDescription"
                     [class.invalid]="validateLongDescription()"
+                    [readonly]="appSignalStore.ui.isSaving()"
                   />
                   <span *ngIf="validateLongDescription()" class="error">This field is required</span>
                 </div>
@@ -66,8 +70,8 @@
               <div class="col-12 col-md-6">
                 <div class="form-group">
                   <label for="role">Role</label>
-                  <select id="role" formControlName="roleId" class="form-select">
-                    <option *ngFor="let role of roles" [ngValue]="role.id">{{role.title}}</option>
+                  <select id="role" formControlName="roleId" class="form-select" >
+                    <option *ngFor="let role of roles" [ngValue]="role.id" [disabled]="appSignalStore.ui.isSaving()">{{role.title}}</option>
                   </select>
                 </div>
               </div>
@@ -81,14 +85,15 @@
                     class="form-control"
                     (change)="onFileSelected($event)"
                     accept="image/*"
+                    [disabled]="appSignalStore.ui.isSaving()"
                   />
                 </div>
               </div>
             </div>
-
+<!-- [disabled]="trainingForm.invalid || appSignalStore.ui.isSaving()" -->
             <div class="btn-container">
-              <button type="submit" [disabled]="trainingForm.invalid">Save Changes</button>
-              <button type="button" (click)="trainingForm.reset()">Reset Form</button>
+              <button type="submit" [disabled]="trainingForm.invalid || appSignalStore.ui.isSaving()">Save Changes</button>
+              <button type="button" (click)="trainingForm.reset()" [disabled]="appSignalStore.ui.isSaving()">Reset Form</button>
             </div>
           </form>
         </div>
