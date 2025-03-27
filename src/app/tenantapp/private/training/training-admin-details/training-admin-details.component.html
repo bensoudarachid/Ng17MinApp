@@ -1,84 +1,93 @@
 <div class="container-fluid py-4">
   <div class="row justify-content-center">
     <div class="col-12 col-md-10 col-lg-8">
-      <ngb-alert [dismissible]="false" *ngIf="trainingForm.invalid && isSubmitted" type="warning">
-        Please check the form for errors before submitting.
-      </ngb-alert>
-
+      <!-- Removed ngb-alert, relying on field-level validation -->
       <section class="card">
         <div class="card-body">
-          <form id="trainingdetailsform" [formGroup]="trainingForm" (ngSubmit)="onSubmit()">
-            <h2 class="text-center mb-4">Edit Training</h2>
+          <!-- Added 'needs-validation' and removed novalidate if we want browser validation disabled -->
+          <form id="trainingdetailsform" [formGroup]="trainingForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+            <h2 class="card-title text-center mb-4">Edit Training</h2>
 
-            <div class="row">
+            <div class="row g-3"> <!-- Added g-3 for gutters -->
               <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label for="title">Title</label>
-                    <input
+                <!-- Replaced form-group with mb-3 -->
+                <div class="mb-3">
+                  <label for="title" class="form-label">Title</label>
+                  <input
                     id="title"
                     type="text"
                     formControlName="title"
-                    [class.invalid]="!isTitleValid()"
+                    class="form-control"
+                    [class.is-invalid]="!isTitleValid()"
                     [readonly]="appSignalStore.ui.isSaving()"
+                    required
                   />
-                  <span *ngIf="!isTitleValid()" class="error">{{titleError}}</span>
+                  <!-- Replaced custom span with invalid-feedback -->
+                  <div *ngIf="!isTitleValid()" class="invalid-feedback">{{titleError}}</div>
                 </div>
               </div>
 
               <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label for="secondaryTitle">Secondary Title</label>
+                <div class="mb-3">
+                  <label for="secondaryTitle" class="form-label">Secondary Title</label>
                   <input
                     id="secondaryTitle"
                     type="text"
                     formControlName="secondaryTitle"
-                    [class.invalid]="validateSecondaryTitle()"
+                    class="form-control"
+                    [class.is-invalid]="validateSecondaryTitle()"
                     [readonly]="appSignalStore.ui.isSaving()"
+                    required
                   />
-                  <span *ngIf="validateSecondaryTitle()" class="error">This field is required</span>
+                  <div *ngIf="validateSecondaryTitle()" class="invalid-feedback">This field is required.</div>
                 </div>
               </div>
 
               <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label for="shortDescription">Short Description</label>
+                <div class="mb-3">
+                  <label for="shortDescription" class="form-label">Short Description</label>
                   <input
                     id="shortDescription"
                     type="text"
                     formControlName="shortDescription"
-                    [class.invalid]="validateShortDescription()"
+                    class="form-control"
+                    [class.is-invalid]="validateShortDescription()"
                     [readonly]="appSignalStore.ui.isSaving()"
+                    required
                   />
-                  <span *ngIf="validateShortDescription()" class="error">This field is required</span>
+                  <div *ngIf="validateShortDescription()" class="invalid-feedback">This field is required.</div>
                 </div>
               </div>
 
               <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label for="longDescription">Long Description</label>
+                <div class="mb-3">
+                  <label for="longDescription" class="form-label">Long Description</label>
                   <input
                     id="longDescription"
                     type="text"
                     formControlName="longDescription"
-                    [class.invalid]="validateLongDescription()"
+                    class="form-control"
+                    [class.is-invalid]="validateLongDescription()"
                     [readonly]="appSignalStore.ui.isSaving()"
                   />
-                  <span *ngIf="validateLongDescription()" class="error">This field is required</span>
+                  <!-- Assuming long description is optional based on TS validators, only showing required error if it exists -->
+                   <div *ngIf="validateLongDescription()" class="invalid-feedback">This field is required.</div>
                 </div>
               </div>
 
               <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label for="role">Role</label>
-                  <select id="role" formControlName="roleId" class="form-select" >
-                    <option *ngFor="let role of roles" [ngValue]="role.id" [disabled]="appSignalStore.ui.isSaving()">{{role.title}}</option>
+                <div class="mb-3">
+                  <label for="role" class="form-label">Role</label>
+                  <select id="role" formControlName="roleId" class="form-select" [class.is-invalid]="trainingForm.get('roleId')?.invalid && (trainingForm.get('roleId')?.dirty || trainingForm.get('roleId')?.touched || isSubmitted)" [disabled]="appSignalStore.ui.isSaving()">
+                    <option *ngFor="let role of roles" [ngValue]="role.id">{{role.title}}</option>
                   </select>
+                   <div *ngIf="trainingForm.get('roleId')?.invalid && (trainingForm.get('roleId')?.dirty || trainingForm.get('roleId')?.touched || isSubmitted)" class="invalid-feedback">Please select a role.</div>
                 </div>
               </div>
 
               <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label for="image">Training Image</label>
+                <div class="mb-3">
+                  <label for="image" class="form-label">Training Image</label>
                   <input
                     id="image"
                     type="file"
@@ -87,13 +96,15 @@
                     accept="image/*"
                     [disabled]="appSignalStore.ui.isSaving()"
                   />
+                  <!-- Add validation feedback for file if needed -->
                 </div>
               </div>
             </div>
-<!-- [disabled]="trainingForm.invalid || appSignalStore.ui.isSaving()" -->
-            <div class="btn-container">
-              <button type="submit" [disabled]="trainingForm.invalid || appSignalStore.ui.isSaving()">Save Changes</button>
-              <button type="button" (click)="trainingForm.reset()" [disabled]="appSignalStore.ui.isSaving()">Reset Form</button>
+
+            <!-- Buttons with improved spacing -->
+            <div class="d-grid gap-3 d-md-flex justify-content-md-center mt-5">
+              <button type="submit" class="btn btn-primary app-btn" [disabled]="trainingForm.invalid || appSignalStore.ui.isSaving()">Save Changes</button>
+              <button type="button" class="btn btn-outline-secondary app-btn" (click)="trainingForm.reset()" [disabled]="appSignalStore.ui.isSaving()">Reset Form</button>
             </div>
           </form>
         </div>

@@ -1,98 +1,36 @@
-@use '@angular/material' as mat;
-@import '@src/styles.scss';
-@include mat.core();
+@use '@angular/material' as mat; // Keep if Material colors are used elsewhere or needed for overrides
+@import '@src/styles.scss'; // Keep global style import
+@include mat.core(); // Keep if Material core styles are needed
 
-#trainingdetailsform {
-  background-color: mat-color($primary, 50);
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+// Removed the #trainingdetailsform block and general disabled styles
+// as Bootstrap classes now handle the form styling and validation states.
 
-  .form-group {
-    margin-bottom: 1.5rem;
+// Custom styles for buttons added via .app-btn class
+.app-btn {
+  padding: 0.75rem 1.5rem; // Slightly larger padding
+  min-width: 160px; // Ensure minimum width
+  font-weight: 500; // Add font weight
+  transition: all 0.2s ease-in-out; // Smooth transition for hover/focus
+  margin: 0 0.5rem;
 
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #ced4da;
-      border-radius: 4px;
-      transition: border-color 0.15s ease-in-out;
-
-      &:focus {
-        border-color: mat-color($primary);
-        outline: none;
-      }
-
-      &.invalid {
-        border-color: mat-color($warn);
-      }
-    }
-  }
-
-  .error {
-    color: mat-color($warn);
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-  }
-
-  .btn-container {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-
-    button {
-      min-width: 120px;
-      padding: 0.75rem 1.5rem;
-      border-radius: 4px;
-      border: none;
-      background-color: mat-color($primary);
-      color: white;
-      cursor: pointer;
-      transition: background-color 0.2s;
-
-      &:disabled {
-        background-color: #ccc;
-        cursor: not-allowed;
-      }
-
-      &:hover:not(:disabled) {
-        background-color: mat-color($primary, 700);
-      }
-    }
-  }
-
-  @media (max-width: 768px) {
-    padding: 0.75rem;
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    input, select {
-      padding: 0.5rem;
-    }
-
-    .btn-container {
-      flex-direction: column;
-      
-      button {
-        width: 100%;
-        margin-bottom: 0.5rem;
-      }
-    }
+  &:hover:not(:disabled) {
+    transform: translateY(-2px); // Subtle lift effect on hover
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Add shadow on hover
   }
 }
 
-input:disabled,
-select:disabled,
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.7;
+// Responsive adjustments
+@media (max-width: 767.98px) {
+  .app-btn {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  .d-grid {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
 }
+
+// Add any other component-specific overrides here if necessary, but prefer Bootstrap utilities.
