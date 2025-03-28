@@ -82,7 +82,7 @@ export const AppSignalStore = signalStore(
                 return
 
               tr = await lastValueFrom(trainingsService.getTraining(trainingId));
-              // console.log('loadTrainingAsync. service get data. value:'+JSON.stringify(tr, null, 2) )
+              console.log('loadTrainingAsync. service get data. value:'+JSON.stringify(tr, null, 2) )
               // const lastList = store.training.list();
               // console.log('loadAllTrainingsAsync.Store training:'+JSON.stringify(store.training(), null, 2) )
               let arr = store.training.list();
