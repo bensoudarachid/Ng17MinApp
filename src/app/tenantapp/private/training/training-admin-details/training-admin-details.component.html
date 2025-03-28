@@ -10,94 +10,103 @@
 
             <div class="row g-3"> <!-- Added g-3 for gutters -->
               <div class="col-12 col-md-6">
-                <!-- Replaced form-group with mb-3 -->
-                <div class="mb-3">
-                  <label for="title" class="form-label">Title</label>
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Title</mat-label>
                   <input
+                    matInput
                     id="title"
                     type="text"
                     formControlName="title"
-                    class="form-control"
-                    [class.is-invalid]="!isTitleValid()"
                     [readonly]="appSignalStore.ui.isSaving()"
                     required
                   />
-                  <!-- Replaced custom span with invalid-feedback -->
-                  <div *ngIf="!isTitleValid()" class="invalid-feedback">{{titleError}}</div>
-                </div>
+                  <mat-error *ngIf="!isTitleValid()">{{titleError}}</mat-error>
+                </mat-form-field>
               </div>
 
               <div class="col-12 col-md-6">
-                <div class="mb-3">
-                  <label for="secondaryTitle" class="form-label">Secondary Title</label>
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Secondary Title</mat-label>
                   <input
+                    matInput
                     id="secondaryTitle"
                     type="text"
                     formControlName="secondaryTitle"
-                    class="form-control"
-                    [class.is-invalid]="validateSecondaryTitle()"
                     [readonly]="appSignalStore.ui.isSaving()"
                     required
                   />
-                  <div *ngIf="validateSecondaryTitle()" class="invalid-feedback">This field is required.</div>
-                </div>
+                  <mat-error *ngIf="validateSecondaryTitle()">This field is required.</mat-error>
+                </mat-form-field>
               </div>
 
               <div class="col-12 col-md-6">
-                <div class="mb-3">
-                  <label for="shortDescription" class="form-label">Short Description</label>
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Short Description</mat-label>
                   <input
+                    matInput
                     id="shortDescription"
                     type="text"
                     formControlName="shortDescription"
-                    class="form-control"
-                    [class.is-invalid]="validateShortDescription()"
                     [readonly]="appSignalStore.ui.isSaving()"
                     required
                   />
-                  <div *ngIf="validateShortDescription()" class="invalid-feedback">This field is required.</div>
-                </div>
+                  <mat-error *ngIf="validateShortDescription()">This field is required.</mat-error>
+                </mat-form-field>
               </div>
 
               <div class="col-12 col-md-6">
-                <div class="mb-3">
-                  <label for="longDescription" class="form-label">Long Description</label>
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Long Description</mat-label>
                   <input
+                    matInput
                     id="longDescription"
                     type="text"
                     formControlName="longDescription"
-                    class="form-control"
-                    [class.is-invalid]="validateLongDescription()"
                     [readonly]="appSignalStore.ui.isSaving()"
                   />
                   <!-- Assuming long description is optional based on TS validators, only showing required error if it exists -->
-                   <div *ngIf="validateLongDescription()" class="invalid-feedback">This field is required.</div>
-                </div>
+                   <mat-error *ngIf="validateLongDescription()">This field is required.</mat-error>
+                </mat-form-field>
               </div>
 
               <div class="col-12 col-md-6">
                 <div class="mb-3">
-                  <label for="role" class="form-label">Role</label>
-                  <select id="role" formControlName="roleId" class="form-select" [class.is-invalid]="trainingForm.get('roleId')?.invalid && (trainingForm.get('roleId')?.dirty || trainingForm.get('roleId')?.touched || isSubmitted)" [disabled]="appSignalStore.ui.isSaving()">
-                    <option *ngFor="let role of roles" [ngValue]="role.id">{{role.title}}</option>
-                  </select>
-                   <div *ngIf="trainingForm.get('roleId')?.invalid && (trainingForm.get('roleId')?.dirty || trainingForm.get('roleId')?.touched || isSubmitted)" class="invalid-feedback">Please select a role.</div>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Rating (1-10)</mat-label>
+                    <mat-select
+                      formControlName="rating"
+                      [errorStateMatcher]="ratingErrorStateMatcher"
+                      [disabled]="appSignalStore.ui.isSaving()"
+                      required>
+                      <mat-option *ngFor="let rating of ratings" [value]="rating.id">{{rating.title}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="trainingForm.get('rating')?.hasError('required')">Please select a rating.</mat-error>
+                    <mat-error *ngIf="trainingForm.get('rating')?.hasError('min') || trainingForm.get('rating')?.hasError('max')">Rating must be between 1 and 10.</mat-error>
+                  </mat-form-field>
                 </div>
               </div>
 
               <div class="col-12 col-md-6">
-                <div class="mb-3">
-                  <label for="image" class="form-label">Training Image</label>
-                  <input
-                    id="image"
-                    type="file"
-                    class="form-control"
-                    (change)="onFileSelected($event)"
-                    accept="image/*"
-                    [disabled]="appSignalStore.ui.isSaving()"
-                  />
-                  <!-- Add validation feedback for file if needed -->
-                </div>
+                <!-- Note: Material doesn't have a standard file input. Wrapping the native input for consistency. -->
+                <!-- Consider a custom component or third-party library for a richer file input experience. -->
+                <mat-form-field appearance="outline" class="w-100">
+                   <mat-label>Training Image</mat-label>
+                   <!-- Using a simple placeholder input to hold the label -->
+                   <input matInput readonly [value]="selectedFileName || 'No file chosen'" (click)="fileInput.click()">
+                   <input
+                     #fileInput
+                      hidden
+                      id="image"
+                      type="file"
+                      (change)="onFileSelected($event)"
+                      accept="image/*"
+                      [disabled]="appSignalStore.ui.isSaving()"
+                    />
+                   <button matSuffix mat-icon-button type="button" (click)="fileInput.click()" [disabled]="appSignalStore.ui.isSaving()">
+                     <mat-icon>attach_file</mat-icon>
+                   </button>
+                   <!-- Add mat-error for file validation if needed -->
+                 </mat-form-field>
               </div>
             </div>
 

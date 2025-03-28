@@ -15,20 +15,27 @@ import { CommonModule } from '@angular/common'
 import { MaterialModule } from '@src/_module/Material.Module'
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { AppSignalStore } from '@src/app/_store/Signal.Store'
+import { MatFormFieldModule } from '@angular/material/form-field'; // Added
+import { MatSelectModule } from '@angular/material/select'; // Added
+import { ErrorStateMatcher } from '@angular/material/core'
 // import * as $ from 'jquery'
 declare var $: any
 
 @Component({
   selector: 'app-training-admin-details',
   standalone: true,
-  imports: [RouterLink,ReactiveFormsModule,MaterialModule,CommonModule,AppImageComponent,NgbAlert],//,NgbAlert
+  imports: [RouterLink,ReactiveFormsModule,MaterialModule,CommonModule,AppImageComponent,NgbAlert, MatFormFieldModule, MatSelectModule],// Added MatFormFieldModule, MatSelectModule
   // imports: [MaterialModule,CommonModule],
   templateUrl: './training-admin-details.component.html',
   styleUrl: './training-admin-details.component.scss'
 })
 export class TrainingAdminDetailsComponent implements OnInit {
   appSignalStore = inject(AppSignalStore)
-
+  ratingErrorStateMatcher: ErrorStateMatcher = {
+    isErrorState: (control: FormControl | null): boolean => {
+      return !!(control && control.invalid && (control.dirty || control.touched));
+    }
+  };
   markColor = '#ff9efb'
   normalColor = '#4499ff'
   routeId: Number
@@ -45,15 +52,13 @@ export class TrainingAdminDetailsComponent implements OnInit {
       Validators.compose([Validators.required, Validators.maxLength(80)]),
     ],
     longDescription: [null, Validators.compose([Validators.maxLength(280)])],
-    roleId: 1
+    rating: [1, [Validators.required, Validators.min(1), Validators.max(10)]]
   })
   titleError:string=''
   isSubmitted = false;
-  roles=[
-    {id:1, title:'developer'},
-    {id:2, title:'qa'},
-  ]
+  ratings = Array.from({length: 10}, (_, i) => ({id: i + 1, title: (i + 1).toString()}))
   selectedFile: File | null = null;
+  selectedFileName: string | null = null; // Added this line
 
   constructor(
     // private formBuilder: FormBuilder,
@@ -95,7 +100,7 @@ export class TrainingAdminDetailsComponent implements OnInit {
         secondaryTitle: this.appSignalStore.training.editData.secondaryTitle(), 
         shortDescription: this.appSignalStore.training.editData.shortDescription(), 
         longDescription: this.appSignalStore.training.editData.longDescription(), 
-        roleId: 1, 
+        rating: 1, 
       });
     })
     
@@ -158,9 +163,9 @@ export class TrainingAdminDetailsComponent implements OnInit {
     
     if( typeof $ === "undefined")
       return;
-    this.trainingForm.get('roleId')?.valueChanges.subscribe(
-      roleId => {
-        console.log('role changed to ', roleId)
+    this.trainingForm.get('rating')?.valueChanges.subscribe(
+      rating => {
+        console.log('rating changed to ', rating)
       })
     
     // this.setEvents([
@@ -266,6 +271,10 @@ export class TrainingAdminDetailsComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
+      this.selectedFileName = this.selectedFile.name; // Added this line
+    } else {
+      this.selectedFile = null;
+      this.selectedFileName = null; // Added this line
     }
   }
 
@@ -326,6 +335,12 @@ export class TrainingAdminDetailsComponent implements OnInit {
   validateLongDescription(){
     // return this.trainingForm.get('title')?.invalid && (this.trainingForm.get('title')?.dirty || this.trainingForm.get('title')?.touched || this.isSubmitted)
     return this.trainingForm.get('longDescription')?.hasError('required') && (this.trainingForm.get('longDescription')?.dirty || this.trainingForm.get('longDescription')?.touched || this.isSubmitted)
+  }
+  validateRole() {
+    return this.trainingForm.get('roleId')?.invalid && 
+           (this.trainingForm.get('roleId')?.dirty || 
+            this.trainingForm.get('roleId')?.touched || 
+            this.isSubmitted);
   }
   addEvent() {
     $('#calendar').fullCalendar('removeEvents', 0)

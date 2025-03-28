@@ -29,7 +29,8 @@ const initialState: AppModel = {
       secondaryTitle: "",
       shortDescription: "",
       longDescription: "",
-      duration: 0
+      duration: 0,
+      rating: 1
     },
   },
   ui: {
@@ -73,7 +74,8 @@ export const AppSignalStore = signalStore(
                 secondaryTitle: "",
                 shortDescription: "",
                 longDescription: "",
-                duration: 0
+                duration: 0,
+                rating: 1
               }
               }}))
               if( trainingId == -1)
@@ -132,7 +134,8 @@ export const AppSignalStore = signalStore(
               secondaryTitle: "",
               shortDescription: "",
               longDescription: "",
-              duration: 0
+              duration: 0,
+              rating: 1
             };
             patchState(store, (store)=>( { training:{...store.training, editData: newTraining }}));
           },

@@ -6,5 +6,7 @@ export interface Training {
   shortDescription: string
   longDescription: string
   duration: number
+  /** Rating value between 1 and 10 */
+  rating: number
   // events: TrEvent[]
 }

@@ -19,6 +19,20 @@
   }
 }
 
+// Ensure consistent spacing between form groups
+.mb-3 {
+  margin-bottom: 1.5rem !important;
+}
+
+// Adjust mat-form-field height if needed to align with other inputs
+// Example:
+// ::ng-deep .mat-mdc-form-field .mdc-notched-outline {
+//   // Adjust border styles if necessary
+// }
+// ::ng-deep .mat-mdc-form-field .mat-mdc-select-value {
+//   // Adjust vertical alignment if necessary
+// }
+
 // Responsive adjustments
 @media (max-width: 767.98px) {
   .app-btn {
