@@ -100,7 +100,7 @@ export class TrainingAdminDetailsComponent implements OnInit {
         secondaryTitle: this.appSignalStore.training.editData.secondaryTitle(), 
         shortDescription: this.appSignalStore.training.editData.shortDescription(), 
         longDescription: this.appSignalStore.training.editData.longDescription(), 
-        rating: 1, 
+        rating: this.appSignalStore.training.editData.rating(), // Use the actual rating from the store
       });
     })
     
