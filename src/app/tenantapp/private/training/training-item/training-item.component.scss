@@ -5,21 +5,34 @@ $primary: mat.define-palette(mat.$indigo-palette);
 
 @include mat.core();
 .card {
-  transition: transform 0.2s ease-in-out;
-  
-  &:hover {
-    transform: translateY(-4px);
+  // Removed hover effect
+  // transition: transform 0.2s ease-in-out;
+  // &:hover {
+  //   transform: translateY(-4px);
+  // }
+
+  .card-img-top {
+    background-color: mat.get-color-from-palette($primary, 500);
+    padding: 1rem; // Keep padding around the image
+    height: 150px; // Keep fixed height for the header area
+    display: flex; // Restore flexbox for alignment
+    align-items: flex-start; // Restore alignment to top
   }
 
   .card-body {
-    background-color: white;
+    background-color: white; // Kept as white based on image
   }
 
   .card-footer {
-    background-color: rgba(mat.get-color-from-palette($primary, 500), 0.05);
-    border-top: 1px solid rgba(mat.get-color-from-palette($primary, 500), 0.1);
+    background-color: mat.get-color-from-palette($primary, 500); // Changed to primary blue
+    color: white; // Added white text color for contrast
+    border-top: none; // Removed border
+
+    .text-muted { // Override bootstrap's muted color for the ID
+      color: white !important; 
+    }
     
-    .right {
+    .right { // This class doesn't seem to be used in the HTML, keeping for now
       button {
         margin-left: 8px;
       }
@@ -31,19 +44,24 @@ $primary: mat.define-palette(mat.$indigo-palette);
   }
 
   .appimage {
-    height: 200px;
-    display: block;
-    overflow: hidden;
+    display: block; 
+    overflow: hidden; 
+    // Set a fixed size for the image container, positioned by parent flexbox
+    width: 110px; 
+    height: 110px; 
 
     ::ng-deep img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      display: block; 
+      width: 100%;  // Fill the container width
+      height: 100%; // Fill the container height
+      object-fit: contain; 
+      margin: 0; 
     }
   }
-  img {
-    margin: 0 auto;
-    width: 200px;
-    height: 200px;
-  }
+  // Removed redundant img styles as app-image component handles it
+  // img {
+  //   margin: 0 auto;
+  //   width: 200px;
+  //   height: 200px;
+  // }
 }

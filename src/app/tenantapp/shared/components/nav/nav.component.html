@@ -26,7 +26,7 @@
         @if(appSignalStore.auth.isAuthenticated()) {
           <button mat-button (click)="signOut()" class="nav-link text-white">Logout</button>
         } @else {
-          <button mat-button data-bs-toggle="modal" data-bs-target="#modalLogin" class="nav-link text-white">Login</button>
+          <button mat-button (click)="startLogin()" class="nav-link text-white">Login</button>
         }
       </div>
     </div>
