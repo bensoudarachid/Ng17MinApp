@@ -1,19 +1,23 @@
 @use '@angular/material' as mat;
 @import '@src/styles.scss';
+
+$primary: mat.define-palette(mat.$indigo-palette);
+
 @include mat.core();
 .card {
-//    background-color: $primary-color;
-//   background-color: mat.mat-color($primary-color, darker);
-   background-color: $primary;
-  //  background-color: mat.get-color-from-palette($primary, 100);
-//    background-color: lighten($primary-color, 50%);
-//   background-color: rgb(215, 236, 255);
+  transition: transform 0.2s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-4px);
+  }
 
   .card-body {
     background-color: white;
   }
+
   .card-footer {
-    background-color: $accent;
+    background-color: rgba(mat.get-color-from-palette($primary, 500), 0.05);
+    border-top: 1px solid rgba(mat.get-color-from-palette($primary, 500), 0.1);
     
     .right {
       button {
@@ -27,11 +31,17 @@
   }
 
   .appimage {
-    // background-color:yellow;
-    height: 100px;
+    height: 200px;
+    display: block;
+    overflow: hidden;
+
+    ::ng-deep img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
   img {
-    // margin-left: -99px;
     margin: 0 auto;
     width: 200px;
     height: 200px;

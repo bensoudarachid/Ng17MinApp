@@ -1,21 +1,19 @@
 <div class="container-fluid py-4">
   <div class="row justify-content-center">
-    <div class="col-12 col-md-10 col-lg-8">
-      <!-- Removed ngb-alert, relying on field-level validation -->
-      <section class="card">
+    <div class="col-12 col-lg-10">
+      <div class="card shadow-sm">
         <div class="card-body">
-          <!-- Added 'needs-validation' and removed novalidate if we want browser validation disabled -->
-          <form id="trainingdetailsform" [formGroup]="trainingForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+          <form [formGroup]="trainingForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
             <h2 class="card-title text-center mb-4">Edit Training</h2>
 
-            <div class="row g-3"> <!-- Added g-3 for gutters -->
+            <div class="row g-3">
+              <!-- Title -->
               <div class="col-12 col-md-6">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Title</mat-label>
                   <input
                     matInput
                     id="title"
-                    type="text"
                     formControlName="title"
                     [readonly]="appSignalStore.ui.isSaving()"
                     required
@@ -24,13 +22,13 @@
                 </mat-form-field>
               </div>
 
+              <!-- Secondary Title -->
               <div class="col-12 col-md-6">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Secondary Title</mat-label>
                   <input
                     matInput
                     id="secondaryTitle"
-                    type="text"
                     formControlName="secondaryTitle"
                     [readonly]="appSignalStore.ui.isSaving()"
                     required
@@ -39,13 +37,13 @@
                 </mat-form-field>
               </div>
 
-              <div class="col-12 col-md-6">
+              <!-- Short Description -->
+              <div class="col-12">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Short Description</mat-label>
                   <input
                     matInput
                     id="shortDescription"
-                    type="text"
                     formControlName="shortDescription"
                     [readonly]="appSignalStore.ui.isSaving()"
                     required
@@ -54,70 +52,88 @@
                 </mat-form-field>
               </div>
 
-              <div class="col-12 col-md-6">
+              <!-- Long Description -->
+              <div class="col-12">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Long Description</mat-label>
-                  <input
+                  <textarea
                     matInput
                     id="longDescription"
-                    type="text"
                     formControlName="longDescription"
                     [readonly]="appSignalStore.ui.isSaving()"
-                  />
-                  <!-- Assuming long description is optional based on TS validators, only showing required error if it exists -->
-                   <mat-error *ngIf="validateLongDescription()">This field is required.</mat-error>
+                    rows="3"
+                  ></textarea>
+                  <mat-error *ngIf="validateLongDescription()">This field is required.</mat-error>
                 </mat-form-field>
               </div>
 
+              <!-- Rating -->
               <div class="col-12 col-md-6">
-                <div class="mb-3">
-                  <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Rating (1-10)</mat-label>
-                    <mat-select
-                      formControlName="rating"
-                      [errorStateMatcher]="ratingErrorStateMatcher"
-                      [disabled]="appSignalStore.ui.isSaving()"
-                      required>
-                      <mat-option *ngFor="let rating of ratings" [value]="rating.id">{{rating.title}}</mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="trainingForm.get('rating')?.hasError('required')">Please select a rating.</mat-error>
-                    <mat-error *ngIf="trainingForm.get('rating')?.hasError('min') || trainingForm.get('rating')?.hasError('max')">Rating must be between 1 and 10.</mat-error>
-                  </mat-form-field>
-                </div>
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Rating</mat-label>
+                  <mat-select
+                    formControlName="rating"
+                    [errorStateMatcher]="ratingErrorStateMatcher"
+                    [disabled]="appSignalStore.ui.isSaving()"
+                    required>
+                    <mat-option *ngFor="let rating of ratings" [value]="rating.id">
+                      {{rating.title}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="trainingForm.get('rating')?.hasError('required')">
+                    Please select a rating.
+                  </mat-error>
+                </mat-form-field>
               </div>
 
+              <!-- Image Upload -->
               <div class="col-12 col-md-6">
-                <!-- Note: Material doesn't have a standard file input. Wrapping the native input for consistency. -->
-                <!-- Consider a custom component or third-party library for a richer file input experience. -->
                 <mat-form-field appearance="outline" class="w-100">
-                   <mat-label>Training Image</mat-label>
-                   <!-- Using a simple placeholder input to hold the label -->
-                   <input matInput readonly [value]="selectedFileName || 'No file chosen'" (click)="fileInput.click()">
-                   <input
-                     #fileInput
-                      hidden
-                      id="image"
-                      type="file"
-                      (change)="onFileSelected($event)"
-                      accept="image/*"
-                      [disabled]="appSignalStore.ui.isSaving()"
-                    />
-                   <button matSuffix mat-icon-button type="button" (click)="fileInput.click()" [disabled]="appSignalStore.ui.isSaving()">
-                     <mat-icon>attach_file</mat-icon>
-                   </button>
-                   <!-- Add mat-error for file validation if needed -->
-                 </mat-form-field>
+                  <mat-label>Training Image</mat-label>
+                  <input matInput readonly [value]="selectedFileName || 'No file chosen'" (click)="fileInput.click()">
+                  <input
+                    #fileInput
+                    type="file"
+                    hidden
+                    (change)="onFileSelected($event)"
+                    accept="image/*"
+                    [disabled]="appSignalStore.ui.isSaving()"
+                  />
+                  <button 
+                    mat-icon-button 
+                    matSuffix 
+                    type="button" 
+                    (click)="fileInput.click()" 
+                    [disabled]="appSignalStore.ui.isSaving()"
+                  >
+                    <mat-icon>attach_file</mat-icon>
+                  </button>
+                </mat-form-field>
               </div>
             </div>
 
-            <!-- Buttons with improved spacing -->
-            <div class="d-grid gap-3 d-md-flex justify-content-md-center mt-5">
-              <button type="submit" class="btn btn-primary app-btn" [disabled]="trainingForm.invalid || appSignalStore.ui.isSaving()">Save Changes</button>
-              <button type="button" class="btn btn-outline-secondary app-btn" (click)="trainingForm.reset()" [disabled]="appSignalStore.ui.isSaving()">Reset Form</button>
+            <!-- Form Actions -->
+            <div class="d-flex gap-3 justify-content-center mt-4">
+              <button 
+                mat-raised-button 
+                color="primary"
+                type="submit"
+                [disabled]="trainingForm.invalid || appSignalStore.ui.isSaving()"
+              >
+                Save Changes
+              </button>
+              <button 
+                mat-stroked-button
+                type="button"
+                (click)="trainingForm.reset()"
+                [disabled]="appSignalStore.ui.isSaving()"
+              >
+                Reset Form
+              </button>
             </div>
           </form>
         </div>
-      </section>
+      </div>
     </div>
   </div>
 </div>

@@ -1,7 +1,38 @@
+@use '@angular/material' as mat;
+@import '@src/styles.scss';
+
 mat-toolbar {
   transition: background-color 0.3s ease;
 
   &.saving {
     background-color: #ff9800 !important; // Orange color
+  }
+}
+
+.navbar {
+  transition: opacity 0.3s ease;
+
+  &.saving {
+    opacity: 0.7;
+  }
+
+  ::ng-deep {
+    .mat-mdc-button {
+      line-height: inherit;
+      padding: 0.5rem 1rem;
+      
+      .mat-icon {
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+// Override navbar-toggler styles to work with Material icon
+.navbar-toggler {
+  padding: 0.25rem;
+  
+  &:focus {
+    box-shadow: none;
   }
 }

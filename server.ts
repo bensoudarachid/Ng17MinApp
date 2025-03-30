@@ -17,12 +17,50 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
-  // Serve static files from /browser
-  server.get('*.*', express.static(browserDistFolder, {
-    maxAge: '1y'
+  // Add CORS headers with wildcard subdomain support
+  server.use((req, res, next) => {
+    const origin = req.headers.origin;
+    // Check if the origin matches *.sc.royasoftware.com or localhost
+    if (origin && (
+      origin.match(/^https?:\/\/[^.]+\.sc\.royasoftware\.com(:\d+)?$/) ||
+      origin.match(/^https?:\/\/localhost(:\d+)?$/)
+    )) {
+      res.header('Access-Control-Allow-Origin', origin);
+    }
+    res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    next();
+  });
+
+  // Serve static files from /browser with proper CORS handling
+  server.use(express.static(browserDistFolder, {
+    maxAge: '1y',
+    setHeaders: (res, path, stat) => {
+      const origin = res.req.headers.origin;
+      if (origin && (
+        origin.match(/^https?:\/\/[^.]+\.sc\.royasoftware\.com(:\d+)?$/) ||
+        origin.match(/^https?:\/\/localhost(:\d+)?$/)
+      )) {
+        res.set('Access-Control-Allow-Origin', origin);
+      }
+      if (path.endsWith('/favicon.ico')) {
+        res.set('Content-Type', 'image/x-icon');
+      }
+    }
   }));
+
+  // Explicit route for favicon with CORS handling
+  server.get('/favicon.ico', (req, res) => {
+    const origin = req.headers.origin;
+    if (origin && (
+      origin.match(/^https?:\/\/[^.]+\.sc\.royasoftware\.com(:\d+)?$/) ||
+      origin.match(/^https?:\/\/localhost(:\d+)?$/)
+    )) {
+      res.set('Access-Control-Allow-Origin', origin);
+    }
+    res.set('Content-Type', 'image/x-icon');
+    res.sendFile(join(browserDistFolder, 'favicon.ico'));
+  });
 
   // All regular routes use the Angular engine
   server.get('*', (req, res, next) => {

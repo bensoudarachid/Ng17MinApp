@@ -33,6 +33,51 @@
 //   // Adjust vertical alignment if necessary
 // }
 
+// Form field full width adjustments
+::ng-deep .mat-mdc-form-field {
+  width: 100%;
+  
+  .mat-mdc-form-field-wrapper {
+    margin: 0;
+    padding-bottom: 0;
+  }
+}
+
+// Card hover effect
+.card {
+  transition: box-shadow 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Button spacing and hover effects
+.d-flex {
+  .mat-mdc-raised-button,
+  .mat-mdc-stroked-button {
+    min-width: 120px;
+    margin: 0 0.5rem;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// Custom scrollbar for textareas
+::ng-deep .mat-mdc-form-field textarea.mat-mdc-input-element {
+  scrollbar-width: thin;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+}
+
 // Responsive adjustments
 @media (max-width: 767.98px) {
   .app-btn {

@@ -1,32 +1,20 @@
 <h1>private trainingapp --- delete later</h1>  
-<div>
-    <section class="container" style="width:95%;margin: 0 auto;">
-      <div class="row mb-3">
-        <div class="col">
-          <button mat-raised-button color="primary" (click)="onNewTraining()">
-            <mat-icon>add</mat-icon> New Training
-          </button>
-        </div>
-      </div>
-      <div class="row">
-        <div
-          *ngFor="let training of appSignalStore.training.list()"
-          class="col-sm-12 col-md-12 col-lg-4 mb-r"
-        >
-        
-        <!-- <div
-          *ngFor="let training of trainings"
-          class="col-sm-12 col-md-12 col-lg-4 mb-r"
-        > -->
-          <app-training-item
-            api="training"
-            [trainingInput]="training"
-          ></app-training-item>
-        </div>
-      </div>
-    </section>
+<div class="container-fluid py-4">
+  <div class="row mb-4">
+    <div class="col">
+      <button mat-raised-button color="primary" (click)="onNewTraining()">
+        <mat-icon>add</mat-icon> New Training
+      </button>
+    </div>
+  </div>
   
-    <!-- <h4>{{training.get('title')}}</h4>
-        <p>{{training.get('shortDescription')}}</p> -->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col" *ngFor="let training of appSignalStore.training.list()">
+      <app-training-item
+        api="training"
+        [trainingInput]="training"
+      ></app-training-item>
+    </div>
+  </div>
 </div>
 

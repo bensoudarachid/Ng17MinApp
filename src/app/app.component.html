@@ -4,7 +4,7 @@
 <!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * -->
+<!-- * * * * * * to get started with your project! * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
 <!-- <style>
@@ -337,90 +337,84 @@
 
 <!-- #loginform="mdb-modal" -->
 <div
-  mdbModal
   class="modal fade"
   id="modalLogin"
   #loginform
-  
   tabindex="-1"
-  role="dialog"
-  aria-labelledby="myModalLabel"
+  aria-labelledby="loginModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog cascading-modal" role="document">
+  <div class="modal-dialog modal-dialog-centered">
     <!--Content-->
     <div class="modal-content">
       <!--Header-->
-      <!-- (click)="loginform.hide()" -->
-
-      <div class="modal-header light-blue darken-3 white-text">
-        <h3 class="title"><i class="fa fa-user"></i>Please log in</h3>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="loginModalLabel"><i class="fa fa-user me-2"></i>Please log in</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <!--Body -->
-      <div class="modal-body test">
-        <div class="md-form form-sm">
-          <i class="fa fa-envelope prefix"></i>
-          <input
-            mdbActive
-            type="text"
-            id="form30"
-            [(ngModel)]="email"
-            class="form-control"
-          />
-          <label for="form30">Your email</label>
+      <!--Body-->
+      <div class="modal-body">
+        <div class="mb-3">
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+            <input
+              type="email"
+              id="form30"
+              [(ngModel)]="email"
+              class="form-control"
+              placeholder="Your email"
+            />
+          </div>
         </div>
 
-        <div class="md-form form-sm">
-          <i class="fa fa-lock prefix"></i>
-          <input
-            mdbActive
-            type="password"
-            id="form31"
-            [(ngModel)]="password"
-            class="form-control"
-          />
-          <label for="form31">Your password</label>
+        <div class="mb-3">
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa fa-lock"></i></span>
+            <input
+              type="password"
+              id="form31"
+              [(ngModel)]="password"
+              class="form-control"
+              placeholder="Your password"
+            />
+          </div>
         </div>
 
-        <!-- (click)="signIn(); loginform.hide()" -->
-        <div class="text-center mt-2">
+        <div class="text-center mt-4">
           <button
-            class="btn btn-info waves-light"
+            class="btn btn-primary"
             (click)="signIn()"
-            data-dismiss="modal"
             data-bs-dismiss="modal"
-              mdbRippleRadius
           >
-            Log in
-            <i class="fa fa-sign-in ml-1"></i>
+            Log in <i class="fa fa-sign-in ms-1"></i>
           </button>
         </div>
       </div>
       <!--Footer-->
       <div class="modal-footer">
-        <div class="options text-center text-md-right mt-1">
-          <p>
-            Not a member?
-            <a href="#">Sign Up</a>
-          </p>
-          <p>
-            Forgot
-            <a href="#">Password?</a>
-          </p>
+        <div class="w-100">
+          <div class="row text-center">
+            <div class="col-sm-6">
+              <p class="mb-0">
+                Not a member?
+                <a href="#" class="text-primary">Sign Up</a>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p class="mb-0">
+                <a href="#" class="text-primary">Forgot Password?</a>
+              </p>
+            </div>
+          </div>
         </div>
-        <!-- (click)="loginform.hide()" -->
         <button
           type="button"
-          class="btn btn-outline-info ml-auto"
-          data-dismiss="modal"
+          class="btn btn-outline-primary"
           data-bs-dismiss="modal"
-          mdbRippleRadius
         >
           Close
         </button>
       </div>
     </div>
-    <!--/.Content-->
   </div>
 </div>

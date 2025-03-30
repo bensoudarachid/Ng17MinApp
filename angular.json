@@ -75,7 +75,8 @@
               "buildTarget": "Ng17MinApp:build:production"
             },
             "development": {
-              "buildTarget": "Ng17MinApp:build:development"
+              "buildTarget": "Ng17MinApp:build:development",
+              "allowedHosts": [".sc.royasoftware.com"]
             }
           },
           "defaultConfiguration": "development"
