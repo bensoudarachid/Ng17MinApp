@@ -34,7 +34,8 @@ const initialState: AppModel = {
     },
   },
   ui: {
-    isSaving: false
+    isSaving: false,
+    footerMessage: null // Added initial value
   }
 }
 
@@ -270,6 +271,17 @@ export const AppSignalStore = signalStore(
             // patchState(store, (store)=>( { auth:{...store.auth,  isAuthenticated:true, isFetching: false  }}))
             // console.log('loging signa store auth:'+JSON.stringify(store.auth(), null, 2) )
             // console.log('obs logout . done')
+          },
+          setFooterMessage(message: string | null, duration: number = 3000) {
+            patchState(store, (state) => ({ ui: { ...state.ui, footerMessage: message } }));
+            if (message && duration > 0) {
+              setTimeout(() => {
+                // Only clear if the message hasn't changed in the meantime
+                if (store.ui.footerMessage() === message) {
+                  patchState(store, (state) => ({ ui: { ...state.ui, footerMessage: null } }));
+                }
+              }, duration);
+            }
           },
                     
      })

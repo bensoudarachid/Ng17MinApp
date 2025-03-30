@@ -1,0 +1,30 @@
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #283593; // Match header primary color (Indigo 800)
+  color: white;
+  padding: 0 20px; // Removed top/bottom padding, rely on min-height and alignment
+  text-align: center;
+  z-index: 1000; // Ensure it's above other content
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); // Optional shadow
+  min-height: 40px; // Set a fixed minimum height (adjust as needed)
+  display: flex; // Use flexbox
+  align-items: center; // Vertically center content
+  justify-content: flex-start; // Horizontally left-align content
+}
+
+.footer-message {
+  display: inline-block; // Needed for animation potentially
+}
+
+.blink {
+  animation: blink-animation 1s infinite;
+}
+
+@keyframes blink-animation {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}

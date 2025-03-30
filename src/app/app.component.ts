@@ -23,6 +23,7 @@ import { getIsAuthenticated } from '@src/app/_store/Auth/Auth.Selector';
 import { CookieService } from 'ngx-cookie-service';
 import { AppSignalStore } from '@src/app/_store/Signal.Store';
 import { patchState } from '@ngrx/signals';
+import { FooterComponent } from './shared/components/footer/footer.component'; // Import FooterComponent
 // import { CookieService } from 'ngx-cookie-service'
 
 // import { trainingState } from "@src/app/_store/Training/Training.State"
@@ -35,7 +36,7 @@ declare var $: any
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule,FormsModule,RouterLink,RouterOutlet,NavComponent],
+  imports: [CommonModule,FormsModule,RouterLink,RouterOutlet,NavComponent, FooterComponent], // Add FooterComponent here
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -128,6 +129,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     // this.appSignalStore.training.list()
 
+    // Set initial footer message
+    this.appSignalStore.setFooterMessage('Welcome to the Training App!', 3000); 
   }
   startLogin() {
     console.log('Start login'+this.loginForm)
@@ -172,4 +175,3 @@ export class AppComponent implements OnInit, AfterViewInit {
 // }
 // }
 // getIsAuthenticated
-

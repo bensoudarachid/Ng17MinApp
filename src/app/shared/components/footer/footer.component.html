@@ -1,0 +1,5 @@
+<footer class="app-footer">
+  <div class="footer-message" *ngIf="footerMessage()" [class.blink]="footerMessage()">
+    {{ footerMessage() }}
+  </div>
+</footer>

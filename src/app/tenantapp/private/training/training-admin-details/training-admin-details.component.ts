@@ -282,8 +282,19 @@ export class TrainingAdminDetailsComponent implements OnInit {
     console.log('submitted form=', this.trainingForm.value, this.trainingForm.invalid)
     this.isSubmitted = true;
     this.trainingForm.markAsTouched();
+    
+    // Ensure rating has a value
+    if (!this.trainingForm.get('rating')?.value) {
+      this.trainingForm.get('rating')?.setValue(1); // Set default rating if none selected
+    }
+    
     if (!this.trainingForm.invalid) {
-      await this.appSignalStore.saveTrainingAsync(this.trainingForm.value, this.selectedFile);
+      const formData = {
+        ...this.trainingForm.value,
+        rating: Number(this.trainingForm.get('rating')?.value) // Ensure rating is a number
+      };
+      await this.appSignalStore.saveTrainingAsync(formData, this.selectedFile);
+      this.appSignalStore.setFooterMessage('Training saved successfully');
     }
   }
   isTitleDirtyTouchedOrSubmitted(field:string){

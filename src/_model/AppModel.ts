@@ -13,6 +13,7 @@ export interface AppModel{
   training:TrainingModel
   ui: {
     isSaving: boolean;
+    footerMessage: string | null; // Added for footer notifications
   };
 
   // {
