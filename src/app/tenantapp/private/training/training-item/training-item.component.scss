@@ -13,10 +13,10 @@ $primary: mat.define-palette(mat.$indigo-palette);
 
   .card-img-top {
     background-color: mat.get-color-from-palette($primary, 500);
-    padding: 1rem; // Keep padding around the image
-    height: 150px; // Keep fixed height for the header area
-    display: flex; // Restore flexbox for alignment
-    align-items: flex-start; // Restore alignment to top
+    // padding: 1rem; // Removed padding
+    height: 110px; // Keep fixed height for the header area
+    display: flex; // Keep flexbox for alignment
+    align-items: flex-start; // Keep alignment to top
   }
 
   .card-body {
