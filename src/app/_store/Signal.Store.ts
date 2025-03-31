@@ -69,21 +69,34 @@ export const AppSignalStore = signalStore(
             try{
               // console.log('loadTrainingAsync. trainingId:'+trainingId)
               console.log('loadTrainingAsync. store.training.list before:',store.training.list())
-              patchState(store, (store)=>( { training:{...store.training,  editData:{
-                id: -1,
-                title: "",
-                secondaryTitle: "",
-                shortDescription: "",
-                longDescription: "",
-                duration: 0,
-                rating: 1
+              // Removed the reset of editData here. Let the effect handle the update only when data arrives.
+              // patchState(store, (store)=>( { training:{...store.training,  editData:{
+              //   id: -1,
+              //   title: "",
+              //   secondaryTitle: "",
+              //   shortDescription: "",
+              //   longDescription: "",
+              //   duration: 0,
+              //   rating: 1
+              // }
+              // }}))
+              if( trainingId == -1) {
+                // If ID is -1 (e.g., new training), ensure editData is reset appropriately elsewhere or handle here if needed.
+                // For now, just return as the component shouldn't load data for ID -1 via this path.
+                console.log('loadTrainingAsync: trainingId is -1, returning.');
+                return;
               }
-              }}))
-              if( trainingId == -1)
-                return
 
               tr = await lastValueFrom(trainingsService.getTraining(trainingId));
-              console.log('loadTrainingAsync. service get data. value:'+JSON.stringify(tr, null, 2) )
+              // *** ADDED LOGGING ***
+              console.log(`[SignalStore] loadTrainingAsync: Successfully fetched data for ID ${trainingId}:`, JSON.stringify(tr, null, 2));
+              if (!tr) {
+                console.error(`[SignalStore] loadTrainingAsync: Fetched data for ID ${trainingId} is null or undefined.`);
+                // Optionally handle this error state, e.g., patchState with an error message
+                return; 
+              }
+              // *** END ADDED LOGGING ***
+              console.log('loadTrainingAsync. service get data. value:'+JSON.stringify(tr, null, 2) ) // Keep original log too
               // const lastList = store.training.list();
               // console.log('loadAllTrainingsAsync.Store training:'+JSON.stringify(store.training(), null, 2) )
               let arr = store.training.list();
@@ -94,7 +107,13 @@ export const AppSignalStore = signalStore(
               
               // patchState(store, (store)=>( { training:{...store.training,  editData:tr  }}))
               // patchState(store, (store)=>( { training:{...store.training,  list:arr  }}))
-              patchState(store, (store)=>( { training:{...store.training,  list:arr, editData:tr  }}))
+              // *** ADDED LOGGING INSIDE patchState ***
+              patchState(store, (currentState) => {
+                const newState = { training: { ...currentState.training, list: arr, editData: tr } };
+                console.log(`[SignalStore] loadTrainingAsync: Patching state for ID ${trainingId}. New editData:`, JSON.stringify(newState.training.editData, null, 2));
+                return newState;
+              });
+              // *** END ADDED LOGGING ***
               // console.log('loadTrainingAsync. store.training.list after:',store.training())
               
             }catch (error) {

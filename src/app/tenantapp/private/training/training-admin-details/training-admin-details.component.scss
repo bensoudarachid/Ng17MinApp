@@ -33,8 +33,9 @@
 //   // Adjust vertical alignment if necessary
 // }
 
-// Form field full width adjustments
+// Form field full width and responsive adjustments
 ::ng-deep .mat-mdc-form-field {
+  display: block;  // Change from inline-block to block
   width: 100%;
   
   .mat-mdc-form-field-wrapper {
@@ -51,6 +52,15 @@
       background-color: rgba(0, 0, 0, 0.2);
       border-radius: 3px;
     }
+  }
+
+  .mdc-text-field {
+    width: 100%;
+  }
+
+  .mat-mdc-form-field-infix {
+    width: 100% !important;
+    min-height: 40px;
   }
 }
 
@@ -95,6 +105,11 @@
 }
 
 // Responsive adjustments
+.row {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 1rem;
+}
+
 @media (max-width: 767.98px) {
   .app-btn {
     width: 100%;
@@ -115,6 +130,10 @@
       width: 100%;
       margin: 0;
     }
+  }
+
+  .row > div[class^="col-"] {
+    margin-bottom: 1rem;  // Add spacing between stacked fields
   }
 }
 

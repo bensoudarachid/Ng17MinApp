@@ -59,9 +59,43 @@ export class TrainingAdminDetailsComponent implements OnInit {
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+
+    // Moved effect() into the constructor (an injection context)
+    effect(() => {
+      // *** ADDED LOGGING ***
+      console.log(`[Component] Effect triggered. routeId = ${this.routeId}`); // routeId might be initial value here
+      const currentTraining = this.appSignalStore.training.editData();
+      console.log('[Component] Effect received training data from store:', JSON.stringify(currentTraining, null, 2));
+      
+      // Check if data exists before patching the form
+      // IMPORTANT: routeId is set in ngOnInit, so this check might initially fail if effect runs before ngOnInit finishes.
+      // However, the effect will re-run when editData changes *after* loadTrainingAsync completes, 
+      // and by then routeId will be correctly set.
+      const conditionMet = currentTraining && currentTraining.id !== -1 && currentTraining.id === this.routeId; 
+      console.log(`[Component] Checking condition (currentTraining && currentTraining.id !== -1 && currentTraining.id === this.routeId): ${conditionMet}`);
+      console.log(`[Component] currentTraining.id = ${currentTraining?.id}, this.routeId = ${this.routeId}`);
+
+      if (conditionMet) { // Ensure it's the correct training and not the initial state
+        console.log('[Component] Condition met. Patching form with training data:', JSON.stringify(currentTraining, null, 2));
+        // *** END ADDED LOGGING ***
+        // Use patchValue for safer updates
+        this.trainingForm.patchValue({
+          title: currentTraining.title,
+          secondaryTitle: currentTraining.secondaryTitle,
+          shortDescription: currentTraining.shortDescription, 
+          longDescription: currentTraining.longDescription, 
+          rating: currentTraining.rating
+        });
+      } else {
+        // *** ADDED LOGGING ***
+        console.log('[Component] Condition NOT met. Skipping form patch.');
+        // *** END ADDED LOGGING ***
+      }
+    });
   }
 
   ngOnInit() {
+    // ngOnInit still needed to get routeId and trigger loading
     if (!this.isBrowser) return;
 
     this.trainingForm.get('rating')?.valueChanges.subscribe(
@@ -72,20 +106,12 @@ export class TrainingAdminDetailsComponent implements OnInit {
     this.routeId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     console.log('-------- id = ' + this.routeId);
     
+    // Load the training data asynchronously based on the route ID
     this.appSignalStore.loadTrainingAsync(this.routeId);
-    this.training = this.appSignalStore.training.editData();
-    console.log('-------- training = ', this.training);
-          
-    effect(() => {  
-      console.log('The current tr is: ', this.appSignalStore.training.editData.title());
-      this.trainingForm.setValue({
-        title: this.appSignalStore.training.editData.title(), 
-        secondaryTitle: this.appSignalStore.training.editData.secondaryTitle(), 
-        shortDescription: this.appSignalStore.training.editData.shortDescription(), 
-        longDescription: this.appSignalStore.training.editData.longDescription(), 
-        rating: this.appSignalStore.training.editData.rating()
-      });
-    });
+    // No need to assign synchronously here, the effect will handle it.
+    // this.training = this.appSignalStore.training.editData(); 
+    // console.log('-------- training = ', this.training); // This would log the initial state
+    // Effect moved to constructor
   }
 
   onFileSelected(event: Event) {
