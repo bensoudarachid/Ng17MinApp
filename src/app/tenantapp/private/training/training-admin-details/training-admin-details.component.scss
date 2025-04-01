@@ -21,7 +21,7 @@
 
 // Ensure consistent spacing between form groups
 .mb-3 {
-  margin-bottom: 1.5rem !important;
+  margin-bottom: 0px !important;
 }
 
 // Adjust mat-form-field height if needed to align with other inputs
@@ -64,26 +64,10 @@
   }
 }
 
-// Ensure form fields stay within their columns
-.row {
-  --bs-gutter-x: 1.5rem;
-  --bs-gutter-y: 1rem;
-  
-  > [class^="col-"] {
-    margin-bottom: 1rem;
-    
-    .mat-mdc-form-field {
-      width: 100%;
-      box-sizing: border-box;
-    }
-  }
-}
-
 // Card hover effect
 .card {
   transition: box-shadow 0.3s ease;
   background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   
   &:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -91,10 +75,6 @@
 
   .card-title {
     color: mat.get-color-from-palette(mat.$indigo-palette, 500);
-  }
-
-  .card-body {
-    padding: 2rem;
   }
 }
 
@@ -133,7 +113,7 @@
 @media (max-width: 767.98px) {
   .app-btn {
     width: 100%;
-    margin: 0.5rem 0;
+    margin: 0rem 0;
   }
 
   .d-grid {
@@ -153,8 +133,12 @@
   }
 
   .row > div[class^="col-"] {
-    margin-bottom: 1rem;  // Add spacing between stacked fields
+    margin-bottom: 0rem;  // Add spacing between stacked fields
   }
-} // Closing brace for @media query
+  .mb-3 {
+    margin-bottom: 0px !important;
+  }
+  
+}
 
 // Add any other component-specific overrides here if necessary, but prefer Bootstrap utilities.
