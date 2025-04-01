@@ -1,3 +1,31 @@
+// Target the footer element using its Bootstrap class
+.footer { // Using .footer instead of .app-footer
+  height: 40px; // Apply fixed height directly to the footer
+  min-height: 40px; // Ensure minimum height
+  display: flex;
+  align-items: center; // Vertically center direct children (the container-fluid)
+  justify-content: flex-start; // Align children (container-fluid) to the left
+  padding-top: 0 !important; // Override Bootstrap padding if necessary
+  padding-bottom: 0 !important; // Override Bootstrap padding if necessary
+
+  // Container fluid takes full height of parent flex container
+  .container-fluid {
+    width: 100%; // Ensure container takes full width
+    text-align: left; // Align the inline-block message div to the left
+    padding: 0 15px; // Keep Bootstrap's default horizontal padding for container-fluid
+  }
+
+  // Style the message itself
+  .footer-message {
+    color: white; // Use white as per parent Bootstrap class
+    font-weight: bold;
+    // line-height: normal; // Let browser handle line height within the inline-block
+    margin: 0;
+    // d-inline-block class handles display
+  }
+}
+
+// Keep the existing blink animation
 .blink {
   animation: blink-animation 1s infinite;
 }

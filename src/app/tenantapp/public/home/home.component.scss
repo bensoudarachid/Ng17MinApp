@@ -1,4 +1,9 @@
+@use '@angular/material' as mat;
 @import '@src/styles.scss';
+
+$primary: mat.define-palette(mat.$indigo-palette);
+
+@include mat.core();
 
 .home {
   // align-text: left;
@@ -7,7 +12,7 @@
 
   .card {
     // background-color:rgb(215, 236, 255);
-    background-color: mat-color($primary, 50);
+    background-color: mat.get-color-from-palette($primary, 50);
     margin: 6px auto;
     // padding: 10px;
 
@@ -20,6 +25,39 @@
     }
 
     // .card-footer{background-color: white;}
+
+    .card-img-top {
+      background-color: mat.get-color-from-palette($primary, 500);
+      height: 110px;
+      display: flex;
+      align-items: flex-start;
+      padding: 0;
+      overflow: hidden;
+
+      .image-container {
+        display: block;
+        overflow: hidden;
+        width: 110px;
+        height: 110px;
+        
+        img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          margin: 0;
+        }
+      }
+    }
+
+    .appimage {
+      display: block;
+      overflow: hidden;
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
+      margin: 0;
+    }
   }
 
   // span {

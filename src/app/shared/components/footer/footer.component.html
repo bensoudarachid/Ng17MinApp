@@ -1,6 +1,9 @@
-<footer class="footer fixed-bottom py-2 bg-primary text-white shadow-sm">
+<footer class="footer fixed-bottom bg-primary text-white shadow-sm">
+  <!-- Reverted container-fluid and d-inline-block for now, let CSS handle layout -->
   <div class="container-fluid">
-    <div class="footer-message d-inline-block" *ngIf="footerMessage()" [class.blink]="footerMessage()">
+    <div class="footer-message d-inline-block"
+         *ngIf="footerMessage()"
+         [class.blink]="footerMessage()">
       {{ footerMessage() }}
     </div>
   </div>
