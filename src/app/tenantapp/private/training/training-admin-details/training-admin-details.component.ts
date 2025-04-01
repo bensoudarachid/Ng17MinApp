@@ -137,10 +137,13 @@ export class TrainingAdminDetailsComponent implements OnInit {
     }
     
     if (!this.trainingForm.invalid) {
+      const ratingValue = this.trainingForm.get('rating')?.value;
       const formData = {
         ...this.trainingForm.value,
-        rating: Number(this.trainingForm.get('rating')?.value)
+        rating: Number(ratingValue)
       };
+      console.log('[Component] onSubmit - formData before saveTrainingAsync:', formData); // ADDED LOGGING
+      console.log('[Component] onSubmit - rating value:', ratingValue); // ADDED LOGGING
       await this.appSignalStore.saveTrainingAsync(formData, this.selectedFile);
       this.appSignalStore.setFooterMessage('Training saved successfully');
     }
@@ -196,9 +199,9 @@ export class TrainingAdminDetailsComponent implements OnInit {
   }
 
   validateRole() {
-    return this.trainingForm.get('roleId')?.invalid && 
-           (this.trainingForm.get('roleId')?.dirty || 
-            this.trainingForm.get('roleId')?.touched || 
+    return this.trainingForm.get('roleId')?.invalid &&
+           (this.trainingForm.get('roleId')?.dirty ||
+            this.trainingForm.get('roleId')?.touched ||
             this.isSubmitted);
   }
 }
