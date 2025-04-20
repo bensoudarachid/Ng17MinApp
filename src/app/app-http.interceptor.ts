@@ -15,7 +15,7 @@ var isRefreshing:boolean;
 //   // req = req.clone({
 //   //   withCredentials: true,
 //   // });
-//   // if (!req.url.endsWith('/oauth/token') && !req.url.endsWith('/oauth/logout')){
+//   // if (!req.url.endsWith('/oauth2/token') && !req.url.endsWith('/oauth/logout')){
 //   // let h = req.headers.set('Access-Control-Allow-Origin', '*')
 //   // // h = h.set('Content-Type', 'application/json')
 //   // const authReq = req.clone({
@@ -25,7 +25,7 @@ var isRefreshing:boolean;
 //   //   catchError((error) => {
 //   //     if (
 //   //       error instanceof HttpErrorResponse &&
-//   //       !req.url.includes('/oauth/token') &&
+//   //       !req.url.includes('/oauth2/token') &&
 //   //       error.status === 401
 //   //     ) {
 //   //       return handle401Error(req, next);
@@ -44,7 +44,7 @@ export const appHttpInterceptor: HttpInterceptorFn = (req, next) => {
   const appSignalStore = inject(AppSignalStore)
   const cookieService = inject(CookieService)
   // console.log('appHttpInterceptor. Go for url: '+req.url)
-  if (req.url.endsWith('/oauth/token') && !req.url.endsWith('/oauth/logout')){
+  if (req.url.endsWith('/oauth2/token') && !req.url.endsWith('/oauth/logout')){
     return next(req).pipe(
       catchError((error) => {
         return throwError(() => error);
@@ -52,7 +52,7 @@ export const appHttpInterceptor: HttpInterceptorFn = (req, next) => {
     );
   }
   
-  // if (!req.url.endsWith('/oauth/token') && !req.url.endsWith('/oauth/logout')){
+  // if (!req.url.endsWith('/oauth2/token') && !req.url.endsWith('/oauth/logout')){
   //   console.log('apphttpInterceptor. call refresh token here. '+req.url)
   //   // appSignalStore.refreshAuthToken()
   //   // authService.refreshTokenObservable().subscribe((data) => {

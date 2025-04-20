@@ -25,7 +25,7 @@ export class AppHttpInterceptorOld implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     console.log('AppHttpInterceptorOld. Got in. '+req.url)
-    // if (!req.url.endsWith('/oauth/token') && !req.url.endsWith('/oauth/logout')){
+    // if (!req.url.endsWith('/oauth2/token') && !req.url.endsWith('/oauth/logout')){
     //   console.log('apphttpInterceptor. refresh token here. '+req.url)
     //   appSignalStore.refreshAuthToken()
     // }

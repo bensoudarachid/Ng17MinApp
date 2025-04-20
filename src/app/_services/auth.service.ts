@@ -39,7 +39,7 @@ export class AuthService {
     body = body.set('grant_type', 'password')
 
     return this.http.post(
-      ApiConnection.API_ENDPOINT + '/oauth/token',
+      ApiConnection.API_ENDPOINT + '/oauth2/token',
       body.toString(),
       httpOptions
     )
@@ -61,7 +61,7 @@ export class AuthService {
     body = body.set('grant_type', 'refresh_token')
     console.log('Auth service get refresh token with http.post. use Refresh Token: ' + refreshToken)
     return this.http.post(
-      ApiConnection.API_ENDPOINT + '/oauth/token',
+      ApiConnection.API_ENDPOINT + '/oauth2/token',
       body.toString(),
       httpOptions
     ).pipe(
@@ -128,6 +128,7 @@ export class AuthService {
   // }
   loginObservable(email: string, password: string) : Observable<any> {
     console.log('Auth service login noW. Pass: '+password)
+    console.log('Auth service login noW. btoa: '+btoa('clientapp:123456'))
     // let params = new HttpParams()
     // params =params.set('grant_type','password')
     const httpOptions = {
@@ -141,10 +142,11 @@ export class AuthService {
     let body = new HttpParams()
     body = body.set('username', email)
     body = body.set('password', password)
+//    body = body.set('grant_type', 'client_credentials')
     body = body.set('grant_type', 'password')
     
     return this.http.post(
-      ApiConnection.API_ENDPOINT + '/oauth/token',
+      ApiConnection.API_ENDPOINT + '/oauth2/token',
       // ApiConnection.API_ENDPOINT + '/login',
       body.toString(),
       httpOptions
@@ -245,7 +247,7 @@ export class AuthService {
       body = body.set('grant_type', 'refresh_token')
       console.log('Auth service Post: ' + refreshToken)
       return this.http.post(
-        ApiConnection.API_ENDPOINT + '/oauth/token',
+        ApiConnection.API_ENDPOINT + '/oauth2/token',
         body.toString(),
         httpOptions
       ).pipe(

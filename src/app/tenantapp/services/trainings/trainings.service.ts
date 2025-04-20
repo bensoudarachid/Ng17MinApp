@@ -36,7 +36,7 @@ export class TrainingsService {
   // }
 
   getTrainings3(): Observable<Training[]> {
-    console.log('TrainingsService. load trainings 3')
+    console.log('TrainingsService. load trainings 3. Calling '+ApiConnection.API_ENDPOINT+'/api/trainings/123')
     return this.http.get<any>(ApiConnection.API_ENDPOINT+'/api/trainings/123').pipe(
       catchError(error => {
         console.error('Error fetching trainigs JSON data:', JSON.stringify(error.message));
@@ -89,9 +89,9 @@ export class TrainingsService {
       body.append('uploadfile', file);
     }
   
-    var endpoint = '/api/training/updatetraining/';
+    var endpoint = '/api/training/updatetraining';
     if (training.id == -1) {
-      endpoint = '/api/training/savetraining/';
+      endpoint = '/api/training/savetraining';
     }
   
     console.log('TrainingsService. call endpoint ' + endpoint);
